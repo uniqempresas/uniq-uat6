@@ -1,0 +1,11 @@
+prompt modelo
+
+vamos ao modulo 08.
+Estou passando um documentos detalhados, com a identidade visual e detalhes sobre a composição da tela, elementos, componentes.
+Crie todas as telas definidas no documento, certifique-se de que todas as telas nesses documentos selecionados foram construídas.
+cuidado para não usar cores fora da identidade visual.
+
+
+revise os documentos do modulo 08 e veja se mais alguma tela, formulário ou modal referenciada nesse documento ainda não foi criado.
+cuidado para não usar cores fora da identidade visual.
+certifique-se de que todas as telas nesses documentos selecionados foram construídas.

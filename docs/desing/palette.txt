@@ -1,0 +1,31 @@
+/* Coolors Exported Palette - https://coolors.co/1f2937-627271-3e5653-efefef-86cb92 */
+
+- CSV
+
+1f2937,627271,3e5653,efefef,86cb92
+
+- With #
+
+#1f2937, #627271, #3e5653, #efefef, #86cb92
+
+- Array
+
+["1f2937","627271","3e5653","efefef","86cb92"]
+
+- Object
+
+{"Jet Black":"1f2937","Dim Grey":"627271","Dark Slate Grey":"3e5653","Platinum":"efefef","Emerald":"86cb92"}
+
+- Extended Array
+
+[{"name":"Jet Black","hex":"1f2937","rgb":[31,41,55],"cmyk":[44,25,0,78],"hsb":[215,44,22],"hsl":[215,28,17],"lab":[16,0,-10]},{"name":"Dim Grey","hex":"627271","rgb":[98,114,113],"cmyk":[14,0,1,55],"hsb":[176,14,45],"hsl":[176,8,42],"lab":[47,-6,-1]},{"name":"Dark Slate Grey","hex":"3e5653","rgb":[62,86,83],"cmyk":[28,0,3,66],"hsb":[173,28,34],"hsl":[173,16,29],"lab":[35,-10,-1]},{"name":"Platinum","hex":"efefef","rgb":[239,239,239],"cmyk":[0,0,0,6],"hsb":[0,0,94],"hsl":[0,0,94],"lab":[94,0,0]},{"name":"Emerald","hex":"86cb92","rgb":[134,203,146],"cmyk":[34,0,28,20],"hsb":[130,34,80],"hsl":[130,40,66],"lab":[76,-33,22]}]
+
+- XML
+
+<palette>
+  <color name="Jet Black" hex="1f2937" r="31" g="41" b="55" />
+  <color name="Dim Grey" hex="627271" r="98" g="114" b="113" />
+  <color name="Dark Slate Grey" hex="3e5653" r="62" g="86" b="83" />
+  <color name="Platinum" hex="efefef" r="239" g="239" b="239" />
+  <color name="Emerald" hex="86cb92" r="134" g="203" b="146" />
+</palette>
