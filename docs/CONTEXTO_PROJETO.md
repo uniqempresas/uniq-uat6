@@ -93,15 +93,15 @@ Enquanto outras consultorias entregam **apenas conhecimento** e outras plataform
 
 | Módulo | Status | Prioridade | Descrição |
 |--------|--------|------------|-----------|
-| **CRM** (Gestão de Clientes) | ✅ Funcional | 🟡 ALTA | Cadastro, pipeline de vendas, histórico |
-| **Finance** (Contas a Pagar/Receber) | ✅ Funcional | 🟡 ALTA | Fluxo de caixa, DRE, conciliação |
+| **CRM** (Gestão de Clientes) | 📋 Planejado | 🟡 ALTA | Cadastro, pipeline de vendas, histórico |
+| **Finance** (Contas a Pagar/Receber) | 📋 Planejado | 🟡 ALTA | Fluxo de caixa, DRE, conciliação |
 | **Estoque** (Gestão de Produtos) | 📋 Planejado | 🟡 ALTA | Entrada/saída, variações, etiquetas |
 | **Vendas PDV** (Ponto de Venda) | 📋 Planejado | 🔴 CRÍTICA | Caixa, sangria, suprimento, relatórios |
 | **Marketplace** (Multi-tenant) | 📋 Planejado | 🟢 MÉDIA | Vendas para outros lojistas |
-| **Loja Virtual (Storefront)** | 🔄 Em desenvolvimento | 🔴 CRÍTICA | Catálogo público + checkout |
+| **Loja Virtual (Storefront)** | 📋 Planejado | 🔴 CRÍTICA | Catálogo público + checkout |
 | **Agendamentos** (Reservas) | 📋 Planejado | 🟡 ALTA | Horários, serviços, notificações |
-| **MEL - IA Proativa** | 🔄 Estrutura criada | 🔴 CRÍTICA | Consultor ativo via WhatsApp |
-| **Catálogo de Serviços** | 🔄 Mockup criado | 🟡 ALTA | Cadastro de serviços, duração, preços |
+| **MEL - IA Proativa** | 📋 Planejado | 🔴 CRÍTICA | Consultor ativo via WhatsApp |
+| **Catálogo de Serviços** | 📋 Planejado | 🟡 ALTA | Cadastro de serviços, duração, preços |
 | **Cadastro de Fornecedores** | 📋 Planejado | 🟢 MÉDIA | Gestão de fornecedores |
 | **Cadastro de Colaboradores** | 📋 Planejado | 🟢 MÉDIA | Gestão de equipe e permissões |
 | **Métricas e Analytics** | 📋 Planejado | 🟢 MÉDIA | Dashboard de resultados |
@@ -411,6 +411,169 @@ O MVP será desenvolvido **COM** os clientes, não **PARA** os clientes. Eles te
 
 ---
 
+## 🌊 Blue Ocean Strategy - Posicionamento Competitivo
+
+### O Que é Blue Ocean?
+ENcontrar um espaço de mercado **não contestado** onde a competição é irrelevante. Enquanto concorrentes competem no "Red Ocean" (sangue), criamos um novo mercado.
+
+### Four Actions Framework (ERRC):
+
+| Ação | O que a UNIQ faz | Impacto |
+|------|------------------|---------|
+| **ELIMINAR** | Emissão fiscal complexa | Remove o que cliente não valoriza no MVP |
+| **REDUZIR** | Tempo de setup (semanas → 1 dia) | Diferencial de velocidade |
+| **AUMENTAR** | Proatividade (MEL trabalha para você) | Diferencial de categoria |
+| **CRIAR** | Setup Done-For-You + IA proativa | Novo espaço de mercado |
+
+### Strategy Canvas (Comparativo):
+
+| Fator | Bling | Tiny | e-Gestor | **UNIQ** |
+|-------|-------|------|----------|----------|
+| Setup Rápido | 2 | 2 | 2 | **10** |
+| Loja Online Pronta | 4 | 1 | 3 | **9** |
+| IA/Bot Proativo | 1 | 1 | 1 | **10** |
+| Suporte Proativo | 3 | 3 | 3 | **9** |
+| Relatórios Proativos | 2 | 2 | 2 | **10** |
+| Emissão Fiscal | 10 | 5 | 8 | **3** |
+| Simplicidade | 3 | 5 | 4 | **9** |
+| Foco em Vendas | 4 | 3 | 4 | **10** |
+
+### Posicionamento:
+- ❌ **Não somos:** ERP, Sistema de Gestão, Software
+- ✅ **Somos:** "Digital Partner as a Service" - parceiro digital, não fornecedor
+
+### Janela de Oportunidade:
+- **12-18 meses** de vantagem com MEL antes que concorrentes copiem
+- Nenhum concorrente oferece "Simples + Proativo + Done-For-You"
+
+---
+
+## 💎 Value Proposition Canvas - O Que Entregamos
+
+### Customer Profile: "Empreendedor na Correria"
+
+#### Jobs-to-be-Done (O que cliente quer realizar):
+1. **"Quero vender online sem aprender tecnologia"**
+2. **"Quero automatizar atendimento repetitivo"**
+3. **"Quero entender meu negócio melhor (números)"**
+4. **"Quero parecer mais profissional digitalmente"**
+
+#### Pains (O que frustra):
+| # | Dor | Severidade |
+|---|------|------------|
+| P1 | Não ter tempo para aprender tecnologia | 🔴 10/10 |
+| P2 | Perder vendas por não ter loja online | 🔴 9/10 |
+| P3 | Ficar preso no WhatsApp o dia todo | 🔴 9/10 |
+| P4 | Usar vários apps que não conversam | 🟡 8/10 |
+
+#### Gains (O que cliente quer alcançar):
+| # | Ganho | Importância |
+|---|-------|-------------|
+| G1 | Ter loja online funcionando | ⭐ 10/10 |
+| G2 | Vender mais | ⭐ 10/10 |
+| G3 | Economizar tempo | ⭐ 9/10 |
+| G9 | IA que trabalha pra mim | 🚀 9/10 |
+| G10 | Relatórios proativos (sem pedir) | 🚀 8/10 |
+
+### Value Map: O Que UNIQ Oferece
+
+| Solução | Como Alivia a Dor |
+|---------|-------------------|
+| **Setup Done-For-You** | Não precisa aprender - agente faz |
+| **Loja em 1 dia** | Começa a vender imediatamente |
+| **MEL (IA Proativa)** | Trabalha para o dono, não o contrário |
+| **Tudo integrado** | Para de usar 5 apps diferentes |
+| **Relatórios no WhatsApp** | Dados onde cliente já está |
+
+### Fit Score: 9/10
+9 das 10 principais dores do cliente têm solução no produto UNIQ.
+
+---
+
+## 🗺️ Estratégia Regional: Conquista de Suzano
+
+### Por que Suzano?
+- **20.772 MEIs ativos** - mercado grande o suficiente
+- **Você mora aqui** - credibilidade instantânea
+- **Sem concorrência direta** - espaço aberto
+- **445 novas empresas/mês** - crescimento constante
+- **Ecossistema ativo** - CDL, Sebrae, contadores
+
+### Estratégia em 3 Fases:
+
+**Fase 1 (Mês 1-6): Conquista Suzano**
+- Network pessoal: 5 clientes dos conhecidos
+- Parcerias: 3 contadores indicando
+- Conteúdo: Instagram + YouTube local
+- Meta: 15-20 clientes
+
+**Fase 2 (Mês 7-12): Expansão Regional**
+- Mogi das Cruzes (45k empresas)
+- Itaquaquecetuba (38k empresas)
+- Meta: 30 clientes (+10 região)
+
+**Fase 3 (Mês 13+): Consolidação**
+- Todas as cidades do Alto Tietê
+- Programa de afiliados
+- Anúncios geolocalizados
+
+### Diferencial Local:
+- Presença física possível (visitas)
+- Cases locais (prova social)
+- Atendimento em português suzanês
+- Parcerias com ecossistema local
+
+---
+
+## 🏆 Análise de Concorrência - Benchmarking
+
+### Concorrentes Diretos:
+
+| Concorrente | Preço | Força | Fraqueza vs UNIQ |
+|-------------|-------|-------|------------------|
+| **Bling** | R$ 99-299 | Emissão fiscal, integrações | Sem IA, DIY, não proativo |
+| **Tiny** | R$ 79-199 | Barato, simples | Poucas funcionalidades, sem IA |
+| **e-Gestor** | R$ 150-350 | NF-e, estabilidade | Sem loja nativa, sem automação |
+| **Omie** | R$ 199-499 | API, ecossistema | Caro, complexo, enterprise-focused |
+
+### Concorrentes Indiretos:
+
+| Alternativa | Custo | Por Que Não Escolhem? |
+|-------------|-------|----------------------|
+| Agência + Shopify | R$ 3-10k | Caro demais |
+| WhatsApp + Excel | Grátis | Funciona, mas não escala |
+| DIY (fazer sozinho) | Tempo | Demora meses para aprender |
+
+### Diferencial UNIQ (Por que ganha):
+1. **MEL (IA Agent)** - Ninguém tem
+2. **Setup Done-For-You** - Agências cobram 10x mais
+3. **Tudo integrado** - Para de usar 5 apps
+4. **Relatórios no WhatsApp** - Onde cliente já está
+5. **Preço acessível** - Entre DIY e agência
+
+---
+
+## 📊 Lean Canvas - Modelo de Negócio Resumido
+
+| Bloco | Conteúdo |
+|-------|----------|
+| **Problema** | Falta tempo, múltiplos apps, dificuldade vender online |
+| **Solução** | Plataforma SaaS + MEL + Setup Done-For-You |
+| **UVP** | "Parceiro digital que trabalha para você" |
+| **Unfair Advantage** | MEL + Founder + 4 Beta Testers |
+| **Canais** | Indicações + Network pessoal + Parcerias |
+| **Clientes** | MEI/Micro (R$ 8k-30k/faturamento) |
+| **Custo** | R$ 300-700/mês (infra + marketing) |
+| **Receita** | R$ 329 setup + R$ 109/mês |
+
+### Unit Economics:
+- **LTV:** R$ 1.308 (12 meses × R$ 109)
+- **CAC:** <R$ 600 (orgânico)
+- **LTV/CAC:** 2.2x (saudável)
+- **Payback:** 2-3 meses
+
+---
+
 ## ⚠️ Riscos e Mitigações
 
 | Risco | Probabilidade | Impacto | Mitigação |
@@ -438,20 +601,51 @@ O MVP será desenvolvido **COM** os clientes, não **PARA** os clientes. Eles te
 
 ## 🔗 Documentos Relacionados
 
-### Estratégia & Negócio:
-- [SÍNTESE_EXECUTIVA.md](./estrategia/SINTESE_EXECUTIVA.md) - Análise crítica e recomendações
-- [LEAN_CANVAS.md](./estrategia/LEAN_CANVAS.md) - Modelo de negócio completo
-- [VALUE_PROPOSITION_CANVAS.md](./estrategia/VALUE_PROPOSITION_CANVAS.md) - Fit cliente-produto
-- [ESTRATEGIA_CRESCIMENTO.md](./estrategia/ESTRATEGIA_CRESCIMENTO.md) - Roadmap 0-30 meses
-- [PRICING_STRATEGY.md](./estrategia/PRICING_STRATEGY.md) - Estratégia de preços
-- [ONBOARDING_AUTOMATION.md](./estrategia/ONBOARDING_AUTOMATION.md) - Fluxo de onboarding
-- [SWOT_ANALYSIS.md](./estrategia/SWOT_ANALYSIS.md) - Análise estratégica
-- [STRATEGY_CANVAS_BLUE_OCEAN.md](./estrategia/STRATEGY_CANVAS_BLUE_OCEAN.md) - Blue Ocean Strategy
-- [ANALISE_CONCORRENCIA.md](./estrategia/ANALISE_CONCORRENCIA.md) - Inteligência competitiva
-- [PLANO_ACAO_PRIORITIZADO.md](./estrategia/PLANO_ACAO_PRIORITIZADO.md) - Ações imediatas
-- [POSICIONAMENTO_MARCA.md](./estrategia/POSICIONAMENTO_MARCA.md) - Brand positioning
+### 📁 Pasta UI Maps - Mapa Completo de Interfaces (`docs/ui-maps/`)
 
-### Produto & Tecnologia:
+**IMPORTANTE:** Esta pasta contém o inventário completo de todas as telas, formulários e modais do sistema UNIQ Empresas. 
+
+> **Quando for implementar qualquer funcionalidade frontend, consulte primeiro os documentos desta pasta.**
+
+| Arquivo | Módulo | Conteúdo | Telas | Formulários | Modais |
+|---------|--------|----------|-------|-------------|--------|
+| [modulo-crm-ui-map.md](./ui-maps/modulo-crm-ui-map.md) | CRM | Clientes, Pipeline, Interações | 9 | 8 | 11 |
+| [modulo-financeiro-ui-map.md](./ui-maps/modulo-financeiro-ui-map.md) | Financeiro | Contas Pagar/Receber, Fluxo de Caixa, DRE | 9 | 8 | 10 |
+| [modulo-estoque-ui-map.md](./ui-maps/modulo-estoque-ui-map.md) | Estoque | Produtos, Movimentações, Etiquetas | 11 | 8 | 12 |
+| [modulo-vendas-ui-map.md](./ui-maps/modulo-vendas-ui-map.md) | Vendas | PDV + Loja Virtual | 20 | 14 | 18 |
+| [modulo-agendamentos-ui-map.md](./ui-maps/modulo-agendamentos-ui-map.md) | Agendamentos | Serviços, Agenda, Calendário | 19 | 13 | 22 |
+| [modulo-mel-config-metricas-ui-map.md](./ui-maps/modulo-mel-config-metricas-ui-map.md) | MEL + Config + Métricas | IA, Configurações, Dashboards | 28 | 17 | 16 |
+| **TOTAL** | **6 módulos** | **348+ elementos de UI** | **96** | **68** | **89** |
+
+**Estrutura de cada documento:**
+- Resumo do módulo e user stories
+- Telas/páginas com rotas e componentes
+- Formulários com todos os campos (tipo, obrigatório, validações)
+- Modais/dialogs com gatilhos e ações
+- Componentes reutilizáveis específicos
+- Estados de UI (empty, loading, error, success)
+- Priorização MVP vs Futuro
+
+---
+
+### 📁 Pasta Estratégia (12 Arquivos - Coração da Empresa):
+
+| # | Arquivo | Descrição |
+|---|---------|-----------|
+| 1 | [SÍNTESE_EXECUTIVA.md](./estrategia/SINTESE_EXECUTIVA.md) | Análise crítica + recomendações estratégicas |
+| 2 | [LEAN_CANVAS.md](./estrategia/LEAN_CANVAS.md) | Modelo de negócio em 1 página |
+| 3 | [VALUE_PROPOSITION_CANVAS.md](./estrategia/VALUE_PROPOSITION_CANVAS.md) | Fit cliente-produto detalhado |
+| 4 | [ESTRATEGIA_CRESCIMENTO.md](./estrategia/ESTRATEGIA_CRESCIMENTO.md) | Roadmap 0-30 meses |
+| 5 | [ESTRATEGIA_SUZANO.md](./estrategia/ESTRATEGIA_SUZANO.md) | Conquista regional + Go-to-Market |
+| 6 | [PRICING_STRATEGY.md](./estrategia/PRICING_STRATEGY.md) | Estratégia de preços + testes |
+| 7 | [ONBOARDING_AUTOMATION.md](./estrategia/ONBOARDING_AUTOMATION.md) | Fluxo Day 0-14 automatizado |
+| 8 | [SWOT_ANALYSIS.md](./estrategia/SWOT_ANALYSIS.md) | Análise estratégica + matrizes TOWS |
+| 9 | [STRATEGY_CANVAS_BLUE_OCEAN.md](./estrategia/STRATEGY_CANVAS_BLUE_OCEAN.md) | Posicionamento + espaço não contestado |
+| 10 | [ANALISE_CONCORRENCIA.md](./estrategia/ANALISE_CONCORRENCIA.md) | Benchmarking + inteligência competitiva |
+| 11 | [PLANO_ACAO_PRIORITIZADO.md](./estrategia/PLANO_ACAO_PRIORITIZADO.md) | Ações priorizadas 0-6 meses |
+| 12 | [POSICIONAMENTO_MARCA.md](./estrategia/POSICIONAMENTO_MARCA.md) | Brand, tom de voz, pitch de vendas |
+
+### Estratégia & Negócio:
 - [ROADMAP.md](./ROADMAP.md) - Sprints detalhadas (PRDs e SPECs)
 - [Metodologia_vibe-coding.md](./Metodologia_vibe-coding.md) - Metodologia de desenvolvimento
 - [database_schema.md](./database_schema.md) - Esquema de banco de dados

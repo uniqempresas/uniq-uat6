@@ -1,0 +1,404 @@
+/**
+ * ========================================
+ * UNIQ EMPRESAS - DESIGN SYSTEM
+ * Arquivo de variáveis CSS e config Tailwind
+ * ========================================
+ * 
+ * 🎨 PALETA OFICIAL UNIQ EMPRESAS
+ * 
+ * Arquivos de referência:
+ * - Logo: docs/desing/Logo.png
+ * - Avatar MEL: docs/desing/MELISSA.png
+ * - Paleta legada (base): docs/desing/palette.scss
+ * 
+ * Esta paleta expande a base original com:
+ * - Cores de conversão (Coral #F97316)
+ * - Cores da MEL (Neon #4ADE80)
+ * - Gradientes e sombras oficiais
+ * 
+ * FONTE: Poppins (Google Fonts)
+ * <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+ */
+
+/* ========================================
+   CORES PRIMÁRIAS
+   ======================================== */
+
+:root {
+  /* Verde UNIQ - Cor principal da marca */
+  --uniq-green: #2D5A45;
+  --uniq-green-dark: #1F4A35;
+  --uniq-green-light: #3D7A5F;
+  
+  /* Verde Menta - Destaques e acentos */
+  --uniq-mint: #86CB92;
+  --uniq-mint-light: #A5E3B0;
+  --uniq-mint-dark: #6BB578;
+  
+  /* Verde Neon - MEL, tecnologia */
+  --mel-neon: #4ADE80;
+  --mel-neon-glow: rgba(74, 222, 128, 0.3);
+  
+  /* ========================================
+     CORES DE CONVERSÃO (CTAs)
+     ======================================== */
+  --coral: #F97316;
+  --coral-light: #FB923C;
+  --coral-dark: #EA580C;
+  --coral-glow: rgba(249, 115, 22, 0.2);
+  
+  /* ========================================
+     CORES DE SUPORTE
+     ======================================== */
+  --deep-navy: #1E3A5F;
+  --royal-blue: #3B82F6;
+  
+  /* ========================================
+     CORES NEUTRAS
+     ======================================== */
+  --jet-black: #1F2937;
+  --dark-grey: #374151;
+  --medium-grey: #6B7280;
+  --light-grey: #9CA3AF;
+  --off-white: #F9FAFB;
+  --pure-white: #FFFFFF;
+  
+  /* ========================================
+     CORES SEMÂNTICAS
+     ======================================== */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+  
+  /* WhatsApp Brand Color */
+  --whatsapp: #25D366;
+}
+
+/* ========================================
+   GRADIENTES
+   ======================================== */
+
+:root {
+  /* Gradiente Principal - Hero Sections */
+  --gradient-hero: linear-gradient(135deg, #1F2937 0%, #2D5A45 50%, #1F4A35 100%);
+  
+  /* Gradiente Verde - Cards Premium */
+  --gradient-green: linear-gradient(90deg, #2D5A45 0%, #86CB92 100%);
+  
+  /* Gradiente Sunset - CTAs */
+  --gradient-sunset: linear-gradient(90deg, #F97316 0%, #FB923C 100%);
+  
+  /* Gradiente Sutil - Backgrounds */
+  --gradient-subtle: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+  
+  /* Gradiente MEL - Glow effect */
+  --gradient-mel: radial-gradient(circle, rgba(74,222,128,0.3) 0%, transparent 70%);
+}
+
+/* ========================================
+   SOMBRAS
+   ======================================== */
+
+:root {
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Sombras coloridas */
+  --shadow-coral: 0 10px 25px rgba(249, 115, 22, 0.2);
+  --shadow-green: 0 10px 30px rgba(45, 90, 69, 0.3);
+  --shadow-mel: 0 0 60px rgba(74, 222, 128, 0.3);
+}
+
+/* ========================================
+   BORDER RADIUS
+   ======================================== */
+
+:root {
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+}
+
+/* ========================================
+   ESPAÇAMENTO
+   ======================================== */
+
+:root {
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-24: 6rem;    /* 96px */
+}
+
+/* ========================================
+   TIPOGRAFIA
+   ======================================== */
+
+:root {
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', var(--font-sans);
+  
+  /* Tamanhos */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+}
+
+/* ========================================
+   COMPONENTES - BOTÕES
+   ======================================== */
+
+/* Botão Primário (CTA) */
+.btn-primary {
+  background: var(--gradient-sunset);
+  color: var(--pure-white);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  box-shadow: var(--shadow-coral);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(249, 115, 22, 0.3);
+}
+
+/* Botão Secundário (Verde) */
+.btn-secondary {
+  background: var(--uniq-green);
+  color: var(--pure-white);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--uniq-green-dark);
+}
+
+/* Botão Outline */
+.btn-outline {
+  background: transparent;
+  color: var(--uniq-green);
+  border: 2px solid var(--uniq-green);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--uniq-green);
+  color: var(--pure-white);
+}
+
+/* ========================================
+   COMPONENTES - CARDS
+   ======================================== */
+
+.card {
+  background: var(--pure-white);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-featured {
+  background: var(--pure-white);
+  border: 2px solid var(--coral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-coral);
+}
+
+.card-dark {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+}
+
+/* ========================================
+   COMPONENTES - BADGES
+   ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.badge-coral {
+  background: var(--coral);
+  color: var(--pure-white);
+}
+
+.badge-green {
+  background: var(--uniq-mint);
+  color: var(--uniq-green-dark);
+}
+
+.badge-outline {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+/* ========================================
+   SEÇÕES
+   ======================================== */
+
+.section-hero {
+  background: var(--gradient-hero);
+  min-height: 100vh;
+  color: var(--pure-white);
+}
+
+.section-alt {
+  background: var(--off-white);
+}
+
+.section-dark {
+  background: var(--deep-navy);
+  color: var(--pure-white);
+}
+
+/* ========================================
+   TAILWIND CONFIG (tailwind.config.js)
+   ========================================
+   
+   Adicione estas configurações no seu tailwind.config.js:
+
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        // Primárias
+        'uniq-green': {
+          DEFAULT: '#2D5A45',
+          dark: '#1F4A35',
+          light: '#3D7A5F',
+        },
+        'uniq-mint': {
+          DEFAULT: '#86CB92',
+          light: '#A5E3B0',
+          dark: '#6BB578',
+        },
+        'mel-neon': '#4ADE80',
+        
+        // Conversão
+        'coral': {
+          DEFAULT: '#F97316',
+          light: '#FB923C',
+          dark: '#EA580C',
+        },
+        
+        // Suporte
+        'deep-navy': '#1E3A5F',
+        'royal-blue': '#3B82F6',
+        
+        // Semânticas
+        'success': '#22C55E',
+        'warning': '#F59E0B',
+        'error': '#EF4444',
+        'info': '#3B82F6',
+        'whatsapp': '#25D366',
+      },
+      
+      fontFamily: {
+        sans: ['Poppins', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'sans-serif'],
+      },
+      
+      boxShadow: {
+        'coral': '0 10px 25px rgba(249, 115, 22, 0.2)',
+        'green': '0 10px 30px rgba(45, 90, 69, 0.3)',
+        'mel': '0 0 60px rgba(74, 222, 128, 0.3)',
+      },
+      
+      backgroundImage: {
+        'gradient-hero': 'linear-gradient(135deg, #1F2937 0%, #2D5A45 50%, #1F4A35 100%)',
+        'gradient-green': 'linear-gradient(90deg, #2D5A45 0%, #86CB92 100%)',
+        'gradient-sunset': 'linear-gradient(90deg, #F97316 0%, #FB923C 100%)',
+        'gradient-mel': 'radial-gradient(circle, rgba(74,222,128,0.3) 0%, transparent 70%)',
+      },
+    },
+  },
+}
+
+*/
+
+/* ========================================
+   UTILITÁRIOS
+   ======================================== */
+
+.text-gradient-green {
+  background: var(--gradient-green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-sunset {
+  background: var(--gradient-sunset);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-mel {
+  box-shadow: var(--shadow-mel);
+}
+
+.glow-coral {
+  box-shadow: var(--shadow-coral);
+}
+
+/* Animações */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(74, 222, 128, 0.5); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
