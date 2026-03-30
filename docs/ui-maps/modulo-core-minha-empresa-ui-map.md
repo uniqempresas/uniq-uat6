@@ -39,7 +39,7 @@
 |-------|-----|-----|
 | **Background** | `#EFEFEF` | Fundo da página |
 | **Card** | `#FFFFFF` | Fundo de cards |
-| **Primary** | `#3E5653` | Botões primários, destaques |
+| **Primary** | `#2D5A45` | Botões primários, destaques |
 | **Primary Hover** | `#1F2937` | Hover de botões |
 | **Accent** | `#86CB92` | Sucesso, confirmações |
 | **Text Primary** | `#1F2937` | Texto principal |
@@ -117,7 +117,7 @@
 │                         │                                          │         │
 │                         │   ┌──────────────────────────────────┐   │         │
 │                         │   │         [    ENTRAR    ]         │   │         │
-│                         │   │         (bg: #3E5653)            │   │         │
+│                         │   │         (bg: #2D5A45)            │   │         │
 │                         │   └──────────────────────────────────┘   │         │
 │                         │                                          │         │
 │                         │   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   │         │
@@ -187,7 +187,7 @@
 
 #### Botão Primário
 - **Altura:** 48px
-- **Background:** `#3E5653`
+- **Background:** `#2D5A45`
 - **Texto:** Branco, 14px, semibold
 - **Border Radius:** 8px
 - **Hover:** `#1F2937`
@@ -198,7 +198,7 @@
 
 #### Links Secundários
 - **Cor:** `#627271`
-- **Hover:** `#3E5653`
+- **Hover:** `#1F4A35`
 - **Fonte:** 14px
 
 ### Estados
@@ -381,8 +381,8 @@ Legenda:
 - **Padding:** 24px
 - **Border:** 2px solid `#E5E7EB`
 - **Border Radius:** 12px
-- **Hover:** Border `#3E5653`, shadow leve
-- **Selected:** Border `#3E5653`, bg `#F0FDF4`
+- **Hover:** Border `#2D5A45`, shadow leve
+- **Selected:** Border `#2D5A45`, bg `#F0FDF4`
 
 **Ícones:**
 - 🏪 Varejo: `Store` do Lucide

@@ -384,7 +384,7 @@ Gap: 16px entre cards
 | Comparativo | 14px | 12px | 500 | contextual |
 | Lista Título | 16px | 14px | 600 | #1F2937 |
 | Lista Desc | 14px | 12px | 400 | #627271 |
-| Botão | 14px | 14px | 500 | #3E5653 |
+| Botão | 14px | 14px | 500 | #2D5A45 |
 
 ### Cores
 
@@ -392,8 +392,8 @@ Gap: 16px entre cards
 ```css
 --bg-primary: #EFEFEF
 --bg-card: #FFFFFF
---primary: #3E5653
---primary-hover: #1F2937
+--primary: #2D5A45
+--primary-hover: #1F4A35
 --accent: #86CB92
 --text-primary: #1F2937
 --text-secondary: #627271
