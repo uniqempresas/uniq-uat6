@@ -46,7 +46,46 @@
 
 ### 3. Elementos Obrigatórios (O Que DEVE Ter)
 
-#### 3.1 Dados a Exibir
+#### 3.1 Estrutura de Navegação
+
+**Layout Geral da Aplicação:**
+
+A tela segue o padrão de navegação em duas camadas:
+
+**1. Sidebar Principal (Escura)**
+- **Posição:** Fixa à esquerda
+- **Função:** Navegação entre módulos principais
+- **Itens:**
+  - Dashboard (Home)
+  - CRM (Clientes)
+  - Vendas (PDV + Loja)
+  - Estoque (Produtos)
+  - Agenda (Compromissos)
+  - Financeiro (Contas)
+  - Configurações
+- **Comportamento:**
+  - Item ativo destacado
+  - Ícones + labels
+  - Pode ser colapsada (mobile)
+  - Cor: tom escuro (navy ou charcoal)
+
+**2. Barra de Contexto (Acima do conteúdo)**
+- **Posição:** Logo abaixo do header principal
+- **Função:** Navegação dentro do módulo atual
+- **Comportamento:**
+  - Muda dinamicamente conforme módulo selecionado na sidebar
+  - Mostra apenas opções relevantes ao contexto atual
+- **Exemplos por módulo:**
+  - **Se no Dashboard:** Home | Resumo | Configurar Widgets
+  - **Se no CRM:** Dashboard CRM | Clientes | Pipeline | Relatórios | Configurações
+  - **Se no Estoque:** Dashboard Estoque | Produtos | Movimentações | Categorias | Etiquetas
+  - **Se em Configurações:** Perfil | Empresa | Integrações | Usuários | Planos
+
+**3. Área de Conteúdo Principal**
+- Ocupando o restante da tela
+- Scroll próprio quando necessário
+
+#### 3.2 Dados a Exibir
 
 **1. Saudação Personalizada**
 - [ ] Mensagem de acordo com horário: "Bom dia, [Nome]!" / "Boa tarde!" / "Boa noite!"
@@ -209,13 +248,27 @@
 
 ### 7. Integrações
 
-#### 7.1 Com Outras Telas
-- Navega para: **CRM** (`/crm/clientes`) - Ver todos os clientes
-- Navega para: **Vendas** (`/vendas/pdv`) - PDV completo
-- Navega para: **Estoque** (`/estoque/produtos`) - Gerenciar produtos
-- Navega para: **Agenda** (`/agenda`) - Calendário completo
-- Navega para: **Financeiro** (`/financeiro/fluxo-de-caixa`) - Relatórios financeiros
-- Navega para: **Configurações** (`/configuracoes`) - Ajustes da conta
+#### 7.1 Estrutura de Navegação
+
+**Sidebar Principal (Navegação Global):**
+A sidebar fixa à esquerda permite alternar entre módulos principais. Quando o usuário muda de módulo, a **Barra de Contexto** atualiza automaticamente para mostrar apenas as opções relevantes daquele módulo.
+
+**Barra de Contexto (Navegação do Módulo):**
+Localizada acima do conteúdo principal, mostra navegação específica do módulo atualmente selecionado na sidebar.
+
+**Fluxo de Navegação:**
+1. Usuário clica em módulo na sidebar (ex: "CRM")
+2. Sistema carrega a página do módulo
+3. Barra de contexto atualiza com opções do CRM
+4. Conteúdo principal mostra a tela default do módulo
+
+#### 7.2 Com Outras Telas
+- Navega para: **CRM** (`/crm/dashboard`) - Via sidebar ou card de módulo
+- Navega para: **Vendas** (`/vendas/pdv`) - Via sidebar ou card de módulo
+- Navega para: **Estoque** (`/estoque/dashboard`) - Via sidebar ou card de módulo
+- Navega para: **Agenda** (`/agenda`) - Via sidebar ou card de módulo
+- Navega para: **Financeiro** (`/financeiro/dashboard`) - Via sidebar ou card de módulo
+- Navega para: **Configurações** (`/configuracoes/perfil`) - Via sidebar
 
 #### 7.2 Com Outros Módulos
 
