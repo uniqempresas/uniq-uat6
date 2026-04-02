@@ -146,8 +146,8 @@ export function RelatoriosVendasPage() {
   const weekdayData = getWeekdayData();
 
   // KPI values
-  const totalVendas = chartData.reduce((s, d) => s + d.valor, 0);
-  const totalPedidos = chartData.reduce((s, d) => s + d.pedidos, 0);
+  const totalVendas = (chartData || []).reduce((s, d) => s + d.valor, 0);
+  const totalPedidos = (chartData || []).reduce((s, d) => s + d.pedidos, 0);
   const ticketMedio = totalPedidos > 0 ? totalVendas / totalPedidos : 0;
   const totalClientes = Math.round(totalPedidos * 0.85);
 

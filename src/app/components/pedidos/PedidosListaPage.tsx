@@ -197,7 +197,7 @@ export function PedidosListaPage() {
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
   // KPIs
-  const totalValor = filtered.reduce((s, p) => s + (p.status !== "cancelado" ? p.total : 0), 0);
+  const totalValor = (filtered || []).reduce((s, p) => s + (p.status !== "cancelado" ? p.total : 0), 0);
   const qtdPedidos = filtered.filter((p) => p.status !== "cancelado").length;
   const ticketMedio = qtdPedidos > 0 ? totalValor / qtdPedidos : 0;
 
