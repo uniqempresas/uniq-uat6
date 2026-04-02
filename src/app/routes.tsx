@@ -25,6 +25,10 @@ import { AgendamentoDetalhePage } from "./components/agenda/AgendamentoDetalhePa
 import { PDVPage } from "./components/pdv/PDVPage";
 import { AberturaCaixaPage } from "./components/pdv/AberturaCaixaPage";
 import { FechamentoCaixaPage } from "./components/pdv/FechamentoCaixaPage";
+// Pedidos
+import { PedidosListaPage } from "./components/pedidos/PedidosListaPage";
+import { PedidoDetalhePage } from "./components/pedidos/PedidoDetalhePage";
+import { RelatoriosVendasPage } from "./components/pedidos/RelatoriosVendasPage";
 // Loja Virtual (public storefront - no AppLayout)
 import { LojaPage } from "./components/loja/LojaPage";
 import { ProdutoLojaPage } from "./components/loja/ProdutoLojaPage";
@@ -91,6 +95,10 @@ export const router = createBrowserRouter([
       { path: "/vendas/pdv", Component: PDVPage },
       { path: "/vendas/pdv/abertura", Component: AberturaCaixaPage },
       { path: "/vendas/pdv/fechamento", Component: FechamentoCaixaPage },
+      // Pedidos
+      { path: "/vendas/pedidos", Component: PedidosListaPage },
+      { path: "/vendas/pedidos/:id", Component: PedidoDetalhePage },
+      { path: "/vendas/relatorios", Component: RelatoriosVendasPage },
       // Financeiro
       { path: "/financeiro", element: <Navigate to="/financeiro/dashboard" replace /> },
       { path: "/financeiro/dashboard", Component: FinanceiroDashboardPage },
