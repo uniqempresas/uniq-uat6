@@ -14,16 +14,27 @@ import {
   Menu,
   X,
   Sparkles,
+  Truck,
+  TrendingUp,
+  Scissors,
+  MessageCircle,
+  Store,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard", badge: 0 },
+  { id: "servicos", label: "Serviços", icon: Scissors, path: "/servicos", badge: 0 },
+  { id: "chatbot", label: "Chatbot", icon: MessageCircle, path: "/chatbot", badge: 2 },
   { id: "crm", label: "CRM", icon: Users, path: "/crm/dashboard", badge: 3 },
   { id: "vendas", label: "Vendas", icon: ShoppingCart, path: "/vendas", badge: 0 },
+  { id: "marketplace", label: "Marketplace", icon: Store, path: "/marketplace", badge: 0 },
   { id: "estoque", label: "Estoque", icon: Package, path: "/estoque/dashboard", badge: 2 },
+  { id: "fornecedores", label: "Fornecedores", icon: Truck, path: "/fornecedores", badge: 0 },
   { id: "agenda", label: "Agenda", icon: Calendar, path: "/agenda", badge: 1 },
   { id: "financeiro", label: "Financeiro", icon: DollarSign, path: "/financeiro", badge: 0 },
+  { id: "metricas", label: "Métricas", icon: TrendingUp, path: "/metricas/dashboard", badge: 0 },
   { id: "mel", label: "MEL IA", icon: Sparkles, path: "/mel", badge: 4 },
+  { id: "colaboradores", label: "Colaboradores", icon: Users, path: "/configuracoes/colaboradores", badge: 0 },
   { id: "configuracoes", label: "Config.", icon: Settings, path: "/configuracoes/empresa", badge: 0 },
 ];
 
@@ -46,14 +57,14 @@ export function AppLayout() {
   return (
     <div className="flex h-screen bg-slate-50">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200">
+      <aside className="hidden lg:flex flex-col w-64 bg-[#1f2937] border-r border-slate-700">
         {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-100">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center">
+        <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-700">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
             <span className="text-white font-bold text-lg">U</span>
           </div>
           <div>
-            <h1 className="text-slate-900 font-bold text-lg">UNIQ</h1>
+            <h1 className="text-white font-bold text-lg">UNIQ</h1>
             <p className="text-slate-400 text-xs">Sistema de Gestão</p>
           </div>
         </div>
@@ -71,11 +82,11 @@ export function AppLayout() {
                 onClick={() => handleNavigation(item.path)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-emerald-50 text-emerald-700"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-emerald-600 text-white"
+                    : "text-slate-300 hover:bg-slate-700 hover:text-white"
                 }`}
               >
-                <Icon size={18} className={isActive ? "text-emerald-600" : "text-slate-400"} />
+                <Icon size={18} className={isActive ? "text-white" : "text-slate-400"} />
                 <span className="flex-1 text-left">{item.label}</span>
                 {item.badge > 0 && (
                   <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
@@ -88,19 +99,19 @@ export function AppLayout() {
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-slate-700">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
-              <span className="text-slate-600 font-bold">A</span>
+            <div className="w-10 h-10 rounded-xl bg-slate-600 flex items-center justify-center">
+              <span className="text-white font-bold">A</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-slate-900 text-sm font-medium truncate">Administrador</p>
+              <p className="text-white text-sm font-medium truncate">Administrador</p>
               <p className="text-slate-400 text-xs truncate">admin@uniq.com</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg text-sm transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-lg text-sm transition-colors"
           >
             <LogOut size={16} />
             Sair
