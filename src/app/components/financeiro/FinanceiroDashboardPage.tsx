@@ -80,37 +80,46 @@ export function FinanceiroDashboardPage() {
 
       {/* Menu de Contexto */}
       <div className="mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Navegação</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <button
+            onClick={() => navigate("/financeiro/dashboard")}
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 transition-all text-left"
+          >
+            <Wallet size={16} />
+            <span className="text-xs font-semibold">Resumo</span>
+          </button>
+
           <button
             onClick={() => navigate("/financeiro/fluxo-de-caixa")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
           >
-            <Wallet size={18} className="text-emerald-600" />
-            <span className="text-sm font-medium text-slate-700">Fluxo de Caixa</span>
+            <Wallet size={16} className="text-emerald-600" />
+            <span className="text-xs font-medium text-slate-700">Fluxo</span>
           </button>
 
           <button
             onClick={() => navigate("/financeiro/contas-pagar")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
           >
-            <FileText size={18} className="text-red-600" />
-            <span className="text-sm font-medium text-slate-700">Contas Pagar</span>
+            <FileText size={16} className="text-red-600" />
+            <span className="text-xs font-medium text-slate-700">Pagar</span>
           </button>
 
           <button
             onClick={() => navigate("/financeiro/contas-receber")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
           >
-            <ArrowDownLeft size={18} className="text-emerald-600" />
-            <span className="text-sm font-medium text-slate-700">Contas Receber</span>
+            <ArrowDownLeft size={16} className="text-emerald-600" />
+            <span className="text-xs font-medium text-slate-700">Receber</span>
           </button>
 
           <button
             onClick={() => navigate("/financeiro/dre")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
           >
-            <BarChart3 size={18} className="text-violet-600" />
-            <span className="text-sm font-medium text-slate-700">DRE</span>
+            <BarChart3 size={16} className="text-violet-600" />
+            <span className="text-xs font-medium text-slate-700">DRE</span>
           </button>
         </div>
       </div>
