@@ -10,6 +10,9 @@ import {
   Zap,
   BarChart2,
   RefreshCw,
+  LayoutDashboard,
+  Boxes,
+  ArrowRightLeft,
 } from "lucide-react";
 import {
   AreaChart,
@@ -66,25 +69,46 @@ export function EstoqueDashboardPage() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Estoque Dashboard</h1>
           <p className="text-slate-500 mt-1">Gestão e controle de inventário</p>
         </div>
-        <div className="flex items-center gap-3">
+      </div>
+
+      {/* Menu de Contexto */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => navigate("/estoque/movimentacoes")}
-            className="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+            onClick={() => navigate("/estoque/dashboard")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
           >
-            <RefreshCw size={18} />
-            Movimentações
+            <LayoutDashboard size={18} className="text-emerald-600" />
+            <span className="text-sm font-medium text-slate-700">Dashboard</span>
           </button>
+
           <button
             onClick={() => navigate("/estoque/produtos")}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+          >
+            <Boxes size={18} className="text-blue-600" />
+            <span className="text-sm font-medium text-slate-700">Produtos</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/estoque/movimentacoes")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+          >
+            <ArrowRightLeft size={18} className="text-violet-600" />
+            <span className="text-sm font-medium text-slate-700">Movimentações</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/estoque/produtos")}
+            className="ml-auto flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
           >
             <Package size={18} />
-            Ver Produtos
+            <span className="text-sm font-medium">Novo Produto</span>
           </button>
         </div>
       </div>

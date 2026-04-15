@@ -14,6 +14,8 @@ import {
   MessageCircle,
   Zap,
   AlertCircle,
+  LayoutDashboard,
+  FileText,
 } from "lucide-react";
 // Usar placeholder até ter a imagem real
 const melPortrait = "https://api.dicebear.com/7.x/avataaars/svg?seed=MEL";
@@ -521,6 +523,33 @@ export function AgendaPage() {
 
   return (
     <div className="p-4 sm:p-5 max-w-full h-full flex flex-col gap-4">
+      {/* Menu de Contexto */}
+      <div className="flex flex-wrap gap-2">
+        <button
+          onClick={() => navigate("/agenda")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <Calendar size={16} className="text-emerald-600" />
+          <span className="text-sm font-medium text-slate-700">Agenda</span>
+        </button>
+
+        <button
+          onClick={() => navigate("/agenda/novo")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <Plus size={16} className="text-blue-600" />
+          <span className="text-sm font-medium text-slate-700">Novo</span>
+        </button>
+
+        <button
+          onClick={() => navigate("/agenda/compromissos")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <FileText size={16} className="text-violet-600" />
+          <span className="text-sm font-medium text-slate-700">Compromissos</span>
+        </button>
+      </div>
+
       {/* Top bar */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">

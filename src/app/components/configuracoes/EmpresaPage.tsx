@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router";
 import {
   Building2,
   MapPin,
@@ -15,6 +16,10 @@ import {
   Wifi,
   ChevronDown,
   AlertCircle,
+  Building,
+  User,
+  Users,
+  UserPlus,
 } from "lucide-react";
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -93,6 +98,7 @@ function Select({ children, ...props }: React.SelectHTMLAttributes<HTMLSelectEle
 const ESTADOS_BR = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
 
 export function EmpresaPage() {
+  const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Dados empresa
@@ -187,6 +193,41 @@ export function EmpresaPage() {
   return (
     <div className="p-4 sm:p-6 max-w-4xl mx-auto">
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
+
+      {/* Menu de Contexto */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <button
+          onClick={() => navigate("/configuracoes/empresa")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <Building size={16} className="text-emerald-600" />
+          <span className="text-sm font-medium text-slate-700">Empresa</span>
+        </button>
+
+        <button
+          onClick={() => navigate("/configuracoes/conta")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <User size={16} className="text-blue-600" />
+          <span className="text-sm font-medium text-slate-700">Conta</span>
+        </button>
+
+        <button
+          onClick={() => navigate("/configuracoes/colaboradores")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <Users size={16} className="text-violet-600" />
+          <span className="text-sm font-medium text-slate-700">Colaboradores</span>
+        </button>
+
+        <button
+          onClick={() => navigate("/configuracoes/colaboradores/novo")}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+        >
+          <UserPlus size={16} className="text-amber-600" />
+          <span className="text-sm font-medium text-slate-700">Novo</span>
+        </button>
+      </div>
 
       {/* Header */}
       <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">

@@ -9,6 +9,9 @@ import {
   ChevronRight,
   Calendar,
   CheckCircle,
+  ArrowDownLeft,
+  FileText,
+  BarChart3,
 } from "lucide-react";
 import { CardKPI, AlertaAmigavel } from "./components";
 import {
@@ -73,6 +76,43 @@ export function FinanceiroDashboardPage() {
       <div className="mb-6">
         <h1 className="text-slate-900 mb-1">Resumo Financeiro</h1>
         <p className="text-sm text-slate-600">Visão geral da saúde financeira do seu negócio</p>
+      </div>
+
+      {/* Menu de Contexto */}
+      <div className="mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <button
+            onClick={() => navigate("/financeiro/fluxo-de-caixa")}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+          >
+            <Wallet size={18} className="text-emerald-600" />
+            <span className="text-sm font-medium text-slate-700">Fluxo de Caixa</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/financeiro/contas-pagar")}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+          >
+            <FileText size={18} className="text-red-600" />
+            <span className="text-sm font-medium text-slate-700">Contas Pagar</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/financeiro/contas-receber")}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+          >
+            <ArrowDownLeft size={18} className="text-emerald-600" />
+            <span className="text-sm font-medium text-slate-700">Contas Receber</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/financeiro/dre")}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all text-left"
+          >
+            <BarChart3 size={18} className="text-violet-600" />
+            <span className="text-sm font-medium text-slate-700">DRE</span>
+          </button>
+        </div>
       </div>
 
       {/* Alertas */}

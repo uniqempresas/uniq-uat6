@@ -11,6 +11,8 @@ import {
   AlertTriangle,
   Star,
   Gift,
+  LayoutDashboard,
+  Kanban,
 } from "lucide-react";
 import {
   PieChart,
@@ -60,18 +62,46 @@ export function CRMDashboardPage() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">CRM Dashboard</h1>
           <p className="text-slate-500 mt-1">Visão geral do relacionamento com clientes</p>
         </div>
-        <div className="flex items-center gap-3">
+      </div>
+
+      {/* Menu de Contexto */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => navigate("/crm/dashboard")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+          >
+            <LayoutDashboard size={18} className="text-emerald-600" />
+            <span className="text-sm font-medium text-slate-700">Dashboard</span>
+          </button>
+
           <button
             onClick={() => navigate("/crm/clientes")}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+          >
+            <Users size={18} className="text-blue-600" />
+            <span className="text-sm font-medium text-slate-700">Clientes</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/crm/pipeline")}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all"
+          >
+            <Kanban size={18} className="text-violet-600" />
+            <span className="text-sm font-medium text-slate-700">Pipeline</span>
+          </button>
+
+          <button
+            onClick={() => navigate("/crm/clientes")}
+            className="ml-auto flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
           >
             <Users size={18} />
-            Ver Clientes
+            <span className="text-sm font-medium">Novo Cliente</span>
           </button>
         </div>
       </div>
