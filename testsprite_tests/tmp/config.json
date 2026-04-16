@@ -1,0 +1,17 @@
+{
+  "status": "init",
+  "executionArgs": {
+    "projectName": "uniq-uat6",
+    "projectPath": "C:\\Users\\henri\\.gemini\\antigravity\\playground\\vector-perseverance\\uniq-uat6",
+    "testIds": [],
+    "additionalInstruction": "Corrigir imports de imagem figma:asset para placeholder URL",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-7CUsbHiAyvcZM_u-F3w7NtbxBcwsKziNHSm4VT4NbuCMitMqsYNuLX5kvZGpfZZIGVpY1oCuYGQnbSl_a-F1LILi_BWEVoR-cNV8ZBgSiloLGLt87xKhnnHIaK6bjeAa2oM"
+    }
+  },
+  "scope": "codebase",
+  "type": "frontend",
+  "localEndpoint": "http://localhost:5173/",
+  "serverPort": 57247
+}

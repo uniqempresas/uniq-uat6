@@ -46,6 +46,43 @@ import { MelConfiguracoesPage } from "./components/mel/MelConfiguracoesPage";
 // Configurações
 import { EmpresaPage } from "./components/configuracoes/EmpresaPage";
 import { ContaPage } from "./components/configuracoes/ContaPage";
+// Fornecedores
+import { FornecedoresPage } from "./components/fornecedores/FornecedoresPage";
+import { FornecedorNovoPage } from "./components/fornecedores/FornecedorNovoPage";
+import { FornecedorDetalhePage } from "./components/fornecedores/FornecedorDetalhePage";
+import { FornecedorEditarPage } from "./components/fornecedores/FornecedorEditarPage";
+// Colaboradores
+import { ColaboradoresPage } from "./components/employees/ColaboradoresPage";
+import { NovoColaboradorPage } from "./components/employees/NovoColaboradorPage";
+// Métricas
+import { MetricasDashboardPage } from "./components/metricas/MetricasDashboardPage";
+import { VendasPage as MetricasVendasPage } from "./components/metricas/VendasPage";
+import { FinanceiroPage as MetricasFinanceiroPage } from "./components/metricas/FinanceiroPage";
+import { ClientesPage as MetricasClientesPage } from "./components/metricas/ClientesPage";
+import { AgendamentosPage } from "./components/metricas/AgendamentosPage";
+import { ProdutosPage as MetricasProdutosPage } from "./components/metricas/ProdutosPage";
+// Serviços
+import { ServicosPage } from "./components/servicos/ServicosPage";
+import { ServicoNovoPage } from "./components/servicos/ServicoNovoPage";
+import { ServicoEditarPage } from "./components/servicos/ServicoEditarPage";
+import { CatalogoPage } from "./components/servicos/CatalogoPage";
+// Chatbot
+import { ChatbotPage } from "./components/chatbot/ChatbotPage";
+import { ChatbotConfigPage } from "./components/chatbot/ChatbotConfigPage";
+import { RespostasAutoPage } from "./components/chatbot/RespostasAutoPage";
+import { FAQPage } from "./components/chatbot/FAQPage";
+import { ChatbotStatsPage } from "./components/chatbot/ChatbotStatsPage";
+
+// Marketplace
+import { MarketplacePage } from "./components/marketplace/MarketplacePage";
+import { LojistaPage } from "./components/marketplace/LojistaPage";
+import { CarrinhoPage } from "./components/marketplace/CarrinhoPage";
+import { CheckoutPage as MarketplaceCheckoutPage } from "./components/marketplace/CheckoutPage";
+import { VendedorDashboardPage } from "./components/marketplace/VendedorDashboardPage";
+import { VendedorPedidosPage } from "./components/marketplace/VendedorPedidosPage";
+// Meus Módulos
+import { MeusModulosPage } from "./components/modulos/MeusModulosPage";
+import { EscolhaPlanoPage } from "./components/modulos/EscolhaPlanoPage";
 
 export const router = createBrowserRouter([
   {
@@ -68,11 +105,19 @@ export const router = createBrowserRouter([
   { path: "/loja/produto/:id", Component: ProdutoLojaPage },
   { path: "/loja/checkout", Component: CheckoutPage },
   { path: "/loja/pedidos", Component: MeusPedidosPage },
+  // Catálogo público (no AppLayout)
+  { path: "/catalogo", Component: CatalogoPage },
   // App routes - pathless layout
   {
     Component: AppLayout,
     children: [
       { path: "/dashboard", Component: DashboardPage },
+      { path: "/meus-modulos", Component: MeusModulosPage },
+      { path: "/onboarding/plano", Component: EscolhaPlanoPage },
+      // Serviços
+      { path: "/servicos", Component: ServicosPage },
+      { path: "/servicos/novo", Component: ServicoNovoPage },
+      { path: "/servicos/:id/editar", Component: ServicoEditarPage },
       // CRM
       { path: "/crm", element: <Navigate to="/crm/dashboard" replace /> },
       { path: "/crm/dashboard", Component: CRMDashboardPage },
@@ -85,6 +130,11 @@ export const router = createBrowserRouter([
       { path: "/estoque/produtos", Component: ProdutosPage },
       { path: "/estoque/produtos/:id", Component: ProdutoDetalhePage },
       { path: "/estoque/movimentacoes", Component: MovimentacoesPage },
+      // Fornecedores
+      { path: "/fornecedores", Component: FornecedoresPage },
+      { path: "/fornecedores/novo", Component: FornecedorNovoPage },
+      { path: "/fornecedores/:id", Component: FornecedorDetalhePage },
+      { path: "/fornecedores/:id/editar", Component: FornecedorEditarPage },
       // Agenda
       { path: "/agenda", Component: AgendaPage },
       { path: "/agenda/novo", Component: NovoAgendamentoPage },
@@ -113,6 +163,29 @@ export const router = createBrowserRouter([
       { path: "/configuracoes", element: <Navigate to="/configuracoes/empresa" replace /> },
       { path: "/configuracoes/empresa", Component: EmpresaPage },
       { path: "/configuracoes/conta", Component: ContaPage },
+      { path: "/configuracoes/colaboradores", Component: ColaboradoresPage },
+      { path: "/configuracoes/colaboradores/novo", Component: NovoColaboradorPage },
+      // Métricas
+      { path: "/metricas", element: <Navigate to="/metricas/dashboard" replace /> },
+      { path: "/metricas/dashboard", Component: MetricasDashboardPage },
+      { path: "/metricas/vendas", Component: MetricasVendasPage },
+      { path: "/metricas/financeiro", Component: MetricasFinanceiroPage },
+      { path: "/metricas/clientes", Component: MetricasClientesPage },
+      { path: "/metricas/agendamentos", Component: AgendamentosPage },
+      { path: "/metricas/produtos", Component: MetricasProdutosPage },
+      // Chatbot
+      { path: "/chatbot", Component: ChatbotPage },
+      { path: "/chatbot/configuracoes", Component: ChatbotConfigPage },
+      { path: "/chatbot/respostas", Component: RespostasAutoPage },
+      { path: "/chatbot/faq", Component: FAQPage },
+      { path: "/chatbot/estatisticas", Component: ChatbotStatsPage },
+      // Marketplace
+      { path: "/marketplace", Component: MarketplacePage },
+      { path: "/marketplace/lojista/:id", Component: LojistaPage },
+      { path: "/marketplace/carrinho", Component: CarrinhoPage },
+      { path: "/marketplace/checkout", Component: MarketplaceCheckoutPage },
+      { path: "/marketplace/vendedor", Component: VendedorDashboardPage },
+      { path: "/marketplace/vendedor/pedidos", Component: VendedorPedidosPage },
     ],
   },
 ]);

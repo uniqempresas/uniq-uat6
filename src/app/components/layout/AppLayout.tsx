@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import {
   LayoutDashboard,
@@ -19,29 +19,66 @@ import {
   Scissors,
   MessageCircle,
   Store,
+  LayoutGrid,
+  type LucideIcon,
 } from "lucide-react";
 
-const NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard", badge: 0 },
-  { id: "servicos", label: "Serviços", icon: Scissors, path: "/servicos", badge: 0 },
-  { id: "chatbot", label: "Chatbot", icon: MessageCircle, path: "/chatbot", badge: 2 },
-  { id: "crm", label: "CRM", icon: Users, path: "/crm/dashboard", badge: 3 },
-  { id: "vendas", label: "Vendas", icon: ShoppingCart, path: "/vendas", badge: 0 },
-  { id: "marketplace", label: "Marketplace", icon: Store, path: "/marketplace", badge: 0 },
-  { id: "estoque", label: "Estoque", icon: Package, path: "/estoque/dashboard", badge: 2 },
-  { id: "fornecedores", label: "Fornecedores", icon: Truck, path: "/fornecedores", badge: 0 },
-  { id: "agenda", label: "Agenda", icon: Calendar, path: "/agenda", badge: 1 },
-  { id: "financeiro", label: "Financeiro", icon: DollarSign, path: "/financeiro", badge: 0 },
-  { id: "metricas", label: "Métricas", icon: TrendingUp, path: "/metricas/dashboard", badge: 0 },
-  { id: "mel", label: "MEL IA", icon: Sparkles, path: "/mel", badge: 4 },
-  { id: "colaboradores", label: "Colaboradores", icon: Users, path: "/configuracoes/colaboradores", badge: 0 },
-  { id: "configuracoes", label: "Config.", icon: Settings, path: "/configuracoes/empresa", badge: 0 },
+type ModuloStatus = 'ativo' | 'trial' | 'core' | 'cancelado';
+
+interface ModuloAtivo {
+  codigo: string;
+  status: ModuloStatus;
+  diasTrialRestantes?: number;
+  dataExpiracao?: string;
+}
+
+interface NavModuleItem {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  path: string;
+  moduloCodigo: string;
+  badge: number;
+}
+
+const NAV_MODULE_MAP: NavModuleItem[] = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard", moduloCodigo: "dashboard", badge: 0 },
+  { id: "meus-modulos", label: "Meus Módulos", icon: LayoutGrid, path: "/meus-modulos", moduloCodigo: "meus-modulos", badge: 0 },
+  { id: "servicos", label: "Serviços", icon: Scissors, path: "/servicos", moduloCodigo: "servicos", badge: 0 },
+  { id: "chatbot", label: "Chatbot", icon: MessageCircle, path: "/chatbot", moduloCodigo: "chatbot", badge: 2 },
+  { id: "crm", label: "CRM", icon: Users, path: "/crm/dashboard", moduloCodigo: "crm", badge: 3 },
+  { id: "vendas", label: "Vendas", icon: ShoppingCart, path: "/vendas", moduloCodigo: "vendas", badge: 0 },
+  { id: "marketplace", label: "Marketplace", icon: Store, path: "/marketplace", moduloCodigo: "marketplace", badge: 0 },
+  { id: "estoque", label: "Estoque", icon: Package, path: "/estoque/dashboard", moduloCodigo: "estoque", badge: 2 },
+  { id: "fornecedores", label: "Fornecedores", icon: Truck, path: "/fornecedores", moduloCodigo: "fornecedores", badge: 0 },
+  { id: "agenda", label: "Agenda", icon: Calendar, path: "/agenda", moduloCodigo: "agenda", badge: 1 },
+  { id: "financeiro", label: "Financeiro", icon: DollarSign, path: "/financeiro", moduloCodigo: "financeiro", badge: 0 },
+  { id: "metricas", label: "Métricas", icon: TrendingUp, path: "/metricas/dashboard", moduloCodigo: "metricas", badge: 0 },
+  { id: "mel", label: "MEL IA", icon: Sparkles, path: "/mel", moduloCodigo: "mel", badge: 4 },
+  { id: "colaboradores", label: "Colaboradores", icon: Users, path: "/configuracoes/colaboradores", moduloCodigo: "colaboradores", badge: 0 },
+  { id: "configuracoes", label: "Config.", icon: Settings, path: "/configuracoes/empresa", moduloCodigo: "configuracoes", badge: 0 },
 ];
+
+const CORE_MODULES = new Set(['dashboard', 'configuracoes']);
 
 export function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Mock local de módulos ativos do parceiro
+  const [modulosAtivos] = useState<ModuloAtivo[]>([
+    { codigo: 'dashboard', status: 'core' },
+    { codigo: 'configuracoes', status: 'core' },
+    { codigo: 'meus-modulos', status: 'core' },
+    { codigo: 'crm', status: 'ativo' },
+    { codigo: 'estoque', status: 'trial', diasTrialRestantes: 12 },
+    { codigo: 'vendas', status: 'cancelado', dataExpiracao: '2026-05-15' },
+    { codigo: 'agenda', status: 'ativo' },
+    { codigo: 'financeiro', status: 'trial', diasTrialRestantes: 7 },
+    { codigo: 'metricas', status: 'cancelado', dataExpiracao: '2026-04-20' },
+    { codigo: 'mel', status: 'ativo' },
+  ]);
 
   const currentPath = location.pathname;
 
@@ -53,6 +90,24 @@ export function AppLayout() {
   const handleLogout = () => {
     navigate("/auth/login");
   };
+
+  const visibleNavItems = useMemo(() => {
+    return NAV_MODULE_MAP.filter(item => {
+      if (CORE_MODULES.has(item.moduloCodigo)) return true;
+      const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
+      return modulo && (modulo.status === 'ativo' || modulo.status === 'trial' || modulo.status === 'cancelado');
+    });
+  }, [modulosAtivos]);
+
+  // Fallback de segurança: garante que os core sempre apareçam mesmo se o mock falhar
+  const safeNavItems = useMemo(() => {
+    const hasCore = visibleNavItems.some(i => CORE_MODULES.has(i.moduloCodigo));
+    if (hasCore) return visibleNavItems;
+    return [
+      ...NAV_MODULE_MAP.filter(i => CORE_MODULES.has(i.moduloCodigo)),
+      ...visibleNavItems,
+    ];
+  }, [visibleNavItems]);
 
   return (
     <div className="flex h-screen bg-slate-50">
@@ -71,10 +126,13 @@ export function AppLayout() {
 
         {/* Navigation */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {NAV_ITEMS.map((item) => {
+          {safeNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPath.startsWith(item.path) || 
               (item.path === "/dashboard" && currentPath === "/dashboard");
+            const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
+            const isTrial = modulo?.status === 'trial';
+            const isCanceled = modulo?.status === 'cancelado';
             
             return (
               <button
@@ -83,11 +141,20 @@ export function AppLayout() {
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   isActive
                     ? "bg-emerald-600 text-white"
-                    : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                    : isCanceled
+                      ? "text-slate-300/60 hover:bg-slate-700 hover:text-white"
+                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
                 }`}
               >
                 <Icon size={18} className={isActive ? "text-white" : "text-slate-400"} />
-                <span className="flex-1 text-left">{item.label}</span>
+                <span className="flex-1 text-left flex items-center gap-2">
+                  {item.label}
+                  {isTrial && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300">
+                      Trial
+                    </span>
+                  )}
+                </span>
                 {item.badge > 0 && (
                   <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                     {item.badge}
@@ -146,9 +213,12 @@ export function AppLayout() {
         {isMobileMenuOpen && (
           <div className="border-t border-slate-100 bg-white">
             <nav className="p-3 space-y-1">
-              {NAV_ITEMS.map((item) => {
+              {safeNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPath.startsWith(item.path);
+                const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
+                const isTrial = modulo?.status === 'trial';
+                const isCanceled = modulo?.status === 'cancelado';
                 
                 return (
                   <button
@@ -157,11 +227,20 @@ export function AppLayout() {
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                       isActive
                         ? "bg-emerald-50 text-emerald-700"
-                        : "text-slate-600 hover:bg-slate-50"
+                        : isCanceled
+                          ? "text-slate-600/60 hover:bg-slate-50"
+                          : "text-slate-600 hover:bg-slate-50"
                     }`}
                   >
                     <Icon size={18} />
-                    <span className="flex-1 text-left">{item.label}</span>
+                    <span className="flex-1 text-left flex items-center gap-2">
+                      {item.label}
+                      {isTrial && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-600">
+                          Trial
+                        </span>
+                      )}
+                    </span>
                     {item.badge > 0 && (
                       <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                         {item.badge}
