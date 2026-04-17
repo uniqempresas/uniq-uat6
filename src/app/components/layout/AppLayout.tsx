@@ -288,31 +288,33 @@ export function AppLayout() {
               isSidebarExpanded ? "px-3" : "items-center px-2"
             )}
           >
-            {visibleRailItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeRailId === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigation(item.path)}
-                  title={item.label}
-                  className={cn(
-                    "flex items-center gap-3 rounded-xl transition-all shrink-0",
-                    isSidebarExpanded ? "w-full px-3 py-2.5" : "w-11 h-11 justify-center",
-                    isActive
-                      ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
-                      : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
-                  )}
-                >
-                  <Icon size={20} className={cn("shrink-0", isActive && "text-[#4ADE80]")} />
-                  {isSidebarExpanded && (
-                    <span className={cn("text-sm truncate", isActive ? "text-[#4ADE80] font-normal" : "font-normal")}>
-                      {item.label}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
+            {visibleRailItems
+              .filter((item) => item.id !== "modulos" && item.id !== "configuracoes")
+              .map((item) => {
+                const Icon = item.icon;
+                const isActive = activeRailId === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavigation(item.path)}
+                    title={item.label}
+                    className={cn(
+                      "flex items-center gap-3 rounded-xl transition-all shrink-0",
+                      isSidebarExpanded ? "w-full px-3 py-2.5" : "w-11 h-11 justify-center",
+                      isActive
+                        ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
+                        : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
+                    )}
+                  >
+                    <Icon size={20} className={cn("shrink-0", isActive && "text-[#4ADE80]")} />
+                    {isSidebarExpanded && (
+                      <span className={cn("text-sm truncate", isActive ? "text-[#4ADE80] font-normal" : "font-normal")}>
+                        {item.label}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
           </nav>
 
           {/* Bottom rail actions */}
