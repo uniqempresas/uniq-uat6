@@ -205,6 +205,9 @@ export function AppLayout() {
     });
   }, [modulosAtivos]);
 
+  const [expandedMobileModule, setExpandedMobileModule] = useState<string | null>(null);
+  const [expandedMobileSubmenu, setExpandedMobileSubmenu] = useState<string | null>("cadastros");
+
   const toggleSubmenu = (id: string) => {
     setExpandedSubmenu((prev) => (prev === id ? null : id));
   };
@@ -214,6 +217,37 @@ export function AppLayout() {
   };
 
   const isItemActive = (path: string) => currentPath === path || currentPath.startsWith(path + "/");
+
+  // Fecha drawer ao pressionar ESC ou clicar fora
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    if (isMobileMenuOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  const toggleMobileModule = (moduleId: string) => {
+    setExpandedMobileModule((prev) => (prev === moduleId ? null : moduleId));
+  };
+
+  const toggleMobileSubmenu = (submenuId: string) => {
+    setExpandedMobileSubmenu((prev) => (prev === submenuId ? null : submenuId));
+  };
+
+  const getSubnavForModule = (moduleId: string): SubNavSection | undefined => {
+    return SUBNAV_SECTIONS.find((s) => s.railId === moduleId);
+  };
+
+  const hasSubmenu = (moduleId: string): boolean => {
+    return !!getSubnavForModule(moduleId);
+  };
 
   return (
     <div className="flex h-screen bg-[#F9FAFB]">
@@ -361,15 +395,15 @@ export function AppLayout() {
           <nav className="flex-1 px-3 py-3 overflow-y-auto">
             {activeSubnav.items.map((item) => {
               const Icon = item.icon;
-              const hasChildren = item.children && item.children.length > 0;
+              const itemHasChildren = item.children && item.children.length > 0;
               const isOpen = expandedSubmenu === item.id;
-              const isActive = !hasChildren && !!item.path && isItemActive(item.path);
+              const isActive = !itemHasChildren && !!item.path && isItemActive(item.path);
 
               return (
                 <div key={item.id} className="mb-1">
                   <button
                     onClick={() => {
-                      if (hasChildren) {
+                      if (itemHasChildren) {
                         toggleSubmenu(item.id);
                       } else if (item.path) {
                         handleNavigation(item.path);
@@ -383,7 +417,7 @@ export function AppLayout() {
                   >
                     {Icon && <Icon size={17} className={isActive ? "text-emerald-600" : "text-slate-400"} />}
                     <span className="flex-1 text-left">{item.label}</span>
-                    {hasChildren && (
+                    {itemHasChildren && (
                       <ChevronDown
                         size={14}
                         className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
@@ -391,7 +425,7 @@ export function AppLayout() {
                     )}
                   </button>
 
-                  {hasChildren && isOpen && (
+                  {itemHasChildren && isOpen && (
                     <div className="mt-1 ml-2 pl-4 border-l border-slate-200 space-y-1">
                       {item.children!.map((child) => {
                         const ChildIcon = child.icon;
@@ -455,22 +489,22 @@ export function AppLayout() {
           </div>
         </div>
 
-        {/* Mobile Menu - Drawer completo */}
+        {/* Mobile Menu - Modern Accordion Drawer */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
             {/* Overlay */}
-            <div 
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-            
+
             {/* Drawer content */}
-            <div className="absolute left-0 top-0 bottom-0 w-[300px] bg-[#1F2937] flex flex-col overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-[320px] max-w-[85vw] bg-[#1F2937] flex flex-col overflow-hidden shadow-2xl">
               {/* Header com logo e botão fechar */}
-              <div className="flex items-center justify-between px-4 py-4 border-b border-slate-700/50">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-700/50 shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center">
-                    <span className="text-white font-bold">U</span>
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center shadow-sm">
+                    <span className="text-white font-bold text-sm">U</span>
                   </div>
                   <div>
                     <span className="text-white font-bold text-sm">UNIQ</span>
@@ -485,107 +519,155 @@ export function AppLayout() {
                 </button>
               </div>
 
-              {/* Módulos (rail items) - estilo escuro */}
-              <div className="px-3 py-3 border-b border-slate-700/50">
-                <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-2 px-3">Módulos</p>
-                <nav className="space-y-1">
-                  {visibleRailItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeRailId === item.id;
-                    return (
+              {/* Lista de Módulos - Accordion */}
+              <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
+                <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-3 px-3">
+                  Menu Principal
+                </p>
+                {visibleRailItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeRailId === item.id;
+                  const moduleHasSubmenu = hasSubmenu(item.id);
+                  const isExpanded = expandedMobileModule === item.id;
+                  const subnav = getSubnavForModule(item.id);
+
+                  return (
+                    <div key={item.id} className="mb-1">
                       <button
-                        key={item.id}
-                        onClick={() => handleNavigation(item.path)}
+                        onClick={() => {
+                          if (moduleHasSubmenu) {
+                            toggleMobileModule(item.id);
+                          } else {
+                            handleNavigation(item.path);
+                          }
+                        }}
                         className={cn(
-                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all",
+                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200",
                           isActive
                             ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
                             : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
                         )}
                       >
-                        <Icon size={18} className={cn("shrink-0", isActive && "text-[#4ADE80]")} />
+                        <Icon
+                          size={20}
+                          className={cn("shrink-0", isActive && "text-[#4ADE80]")}
+                        />
                         <span className={cn("flex-1 text-left font-normal", isActive && "text-[#4ADE80]")}>
                           {item.label}
                         </span>
-                        {isActive && <ChevronRight size={14} className="text-[#4ADE80] shrink-0" />}
+                        {moduleHasSubmenu && (
+                          <ChevronDown
+                            size={16}
+                            className={cn(
+                              "text-slate-500 transition-transform duration-200 shrink-0",
+                              isExpanded && "rotate-180"
+                            )}
+                          />
+                        )}
                       </button>
-                    );
-                  })}
-                </nav>
-              </div>
 
-              {/* Submenu do módulo ativo */}
-              <div className="flex-1 px-3 py-3 overflow-y-auto bg-white">
-                <p className="text-slate-400 text-[10px] uppercase tracking-wider font-medium mb-2 px-3">
-                  {activeSubnav.title}
-                </p>
-                <nav className="space-y-1">
-                  {activeSubnav.items.map((item) => {
-                    const Icon = item.icon;
-                    const hasChildren = item.children && item.children.length > 0;
-                    const isOpen = expandedSubmenu === item.id;
-                    const isActive = !hasChildren && !!item.path && isItemActive(item.path);
+                      {/* Submenu Accordion */}
+                      <div
+                        className={cn(
+                          "overflow-hidden transition-all duration-300 ease-in-out",
+                          isExpanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+                        )}
+                      >
+                        {subnav && (
+                          <div className="mt-1 ml-2 bg-[#1a2332] rounded-lg border-l-2 border-[#4ADE80]/40 overflow-hidden">
+                            {subnav.items.map((subItem) => {
+                              const SubIcon = subItem.icon;
+                              const subHasChildren = subItem.children && subItem.children.length > 0;
+                              const subIsOpen = expandedMobileSubmenu === subItem.id;
+                              const subIsActive = !subHasChildren && !!subItem.path && isItemActive(subItem.path);
 
-                    return (
-                      <div key={item.id}>
-                        <button
-                          onClick={() => {
-                            if (hasChildren) {
-                              toggleSubmenu(item.id);
-                            } else if (item.path) {
-                              handleNavigation(item.path);
-                            }
-                          }}
-                          className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-                            isActive
-                              ? "bg-emerald-50 text-emerald-700"
-                              : "text-slate-600 hover:bg-slate-50"
-                          )}
-                        >
-                          {Icon && <Icon size={16} className={isActive ? "text-emerald-600" : "text-slate-400"} />}
-                          <span className="flex-1 text-left font-normal">{item.label}</span>
-                          {hasChildren && (
-                            <ChevronDown
-                              size={14}
-                              className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                            />
-                          )}
-                        </button>
-
-                        {hasChildren && isOpen && (
-                          <div className="mt-1 ml-2 pl-4 border-l border-slate-200 space-y-1">
-                            {item.children!.map((child) => {
-                              const ChildIcon = child.icon;
-                              const childActive = !!child.path && isItemActive(child.path);
                               return (
-                                <button
-                                  key={child.id}
-                                  onClick={() => child.path && handleNavigation(child.path)}
-                                  className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
-                                    childActive
-                                      ? "text-emerald-700 bg-emerald-50/50"
-                                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
-                                  }`}
-                                >
-                                  {ChildIcon && <ChildIcon size={14} className={childActive ? "text-emerald-600" : "text-slate-400"} />}
-                                  <span className="flex-1 text-left">{child.label}</span>
-                                </button>
+                                <div key={subItem.id}>
+                                  <button
+                                    onClick={() => {
+                                      if (subHasChildren) {
+                                        toggleMobileSubmenu(subItem.id);
+                                      } else if (subItem.path) {
+                                        handleNavigation(subItem.path);
+                                      }
+                                    }}
+                                    className={cn(
+                                      "w-full flex items-center gap-2.5 px-4 py-2 text-sm transition-colors",
+                                      subIsActive
+                                        ? "text-[#4ADE80] bg-[#2D5A45]/10"
+                                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/30"
+                                    )}
+                                  >
+                                    {SubIcon && (
+                                      <SubIcon
+                                        size={15}
+                                        className={cn("shrink-0", subIsActive && "text-[#4ADE80]")}
+                                      />
+                                    )}
+                                    <span className="flex-1 text-left">{subItem.label}</span>
+                                    {subHasChildren && (
+                                      <ChevronDown
+                                        size={13}
+                                        className={cn(
+                                          "text-slate-500 transition-transform duration-200 shrink-0",
+                                          subIsOpen && "rotate-180"
+                                        )}
+                                      />
+                                    )}
+                                  </button>
+
+                                  {/* Nested children */}
+                                  <div
+                                    className={cn(
+                                      "overflow-hidden transition-all duration-300 ease-in-out",
+                                      subIsOpen ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+                                    )}
+                                  >
+                                    {subItem.children && (
+                                      <div className="bg-[#151c27] border-l border-slate-700/50 ml-4">
+                                        {subItem.children.map((child) => {
+                                          const ChildIcon = child.icon;
+                                          const childActive = !!child.path && isItemActive(child.path);
+                                          return (
+                                            <button
+                                              key={child.id}
+                                              onClick={() => child.path && handleNavigation(child.path)}
+                                              className={cn(
+                                                "w-full flex items-center gap-2 px-4 py-1.5 text-sm transition-colors",
+                                                childActive
+                                                  ? "text-[#4ADE80] bg-[#2D5A45]/10"
+                                                  : "text-slate-500 hover:text-slate-300 hover:bg-slate-700/20"
+                                              )}
+                                            >
+                                              {ChildIcon && (
+                                                <ChildIcon
+                                                  size={14}
+                                                  className={cn("shrink-0", childActive && "text-[#4ADE80]")}
+                                                />
+                                              )}
+                                              <span className="flex-1 text-left">{child.label}</span>
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
                               );
                             })}
                           </div>
                         )}
                       </div>
-                    );
-                  })}
-                </nav>
-              </div>
+                    </div>
+                  );
+                })}
+              </nav>
 
               {/* Footer */}
-              <div className="p-3 border-t border-slate-700/50 bg-[#1F2937]">
+              <div className="shrink-0 p-4 border-t border-slate-700/50 bg-[#1F2937]">
                 {/* Status do Plano */}
-                <div className="bg-slate-800/50 rounded-xl p-3 mb-3">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-wide">Status do Plano</p>
+                <div className="bg-[#151c27] rounded-xl p-3 mb-3 border border-slate-700/30">
+                  <p className="text-[10px] text-slate-500 uppercase tracking-wide font-medium">Status do Plano</p>
                   <p className="text-white text-sm font-semibold mt-0.5">UNIQ Pro Enterprise</p>
                   <div className="mt-2 h-1.5 w-full bg-slate-700 rounded-full overflow-hidden">
                     <div className="h-full w-3/4 bg-[#4ADE80] rounded-full" />
