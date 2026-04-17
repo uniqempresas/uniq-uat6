@@ -526,23 +526,25 @@ export function AppLayout() {
                 <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-3 px-3">
                   Menu Principal
                 </p>
-                {visibleRailItems.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = activeRailId === item.id;
-                  const moduleHasSubmenu = hasSubmenu(item.id);
-                  const isExpanded = expandedMobileModule === item.id;
-                  const subnav = getSubnavForModule(item.id);
+                {visibleRailItems
+                  .filter((item) => item.id !== "modulos" && item.id !== "configuracoes")
+                  .map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeRailId === item.id;
+                    const moduleHasSubmenu = hasSubmenu(item.id);
+                    const isExpanded = expandedMobileModule === item.id;
+                    const subnav = getSubnavForModule(item.id);
 
-                  return (
-                    <div key={item.id} className="mb-1">
-                      <button
-                        onClick={() => {
-                          if (moduleHasSubmenu) {
-                            toggleMobileModule(item.id);
-                          } else {
-                            handleNavigation(item.path);
-                          }
-                        }}
+                    return (
+                      <div key={item.id} className="mb-1">
+                        <button
+                          onClick={() => {
+                            if (moduleHasSubmenu) {
+                              toggleMobileModule(item.id);
+                            } else {
+                              handleNavigation(item.path);
+                            }
+                          }}
                         className={cn(
                           "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200",
                           isActive
