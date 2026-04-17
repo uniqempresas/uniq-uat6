@@ -587,18 +587,6 @@ ENcontrar um espaço de mercado **não contestado** onde a competição é irrel
 
 ---
 
-## 📝 Notas Importantes para Desenvolvimento
-
-### Máquina Ultra
-- **Limitações:** Sem privilégios de admin, sem acesso ao MCP do Supabase
-- **Solução:** Gerar arquivos `.sql` para execução manual no Supabase
-
-### Máquina UNIQ
-- **Acesso:** Completo ao MCP do Supabase
-- **Vantagem:** Deploy direto de migrations e edge functions
-
----
-
 ## 🔗 Documentos Relacionados
 
 ### 📁 Pasta UI Maps - Mapa Completo de Interfaces (`docs/ui-maps/`)
@@ -650,18 +638,6 @@ ENcontrar um espaço de mercado **não contestado** onde a competição é irrel
 - [Metodologia_vibe-coding.md](./Metodologia_vibe-coding.md) - Metodologia de desenvolvimento
 - [database_schema.md](./database_schema.md) - Esquema de banco de dados
 - [n8n_integration.md](./n8n_integration.md) - Integração com n8n
-
----
-
-## 📝 Notas Importantes para Desenvolvimento
-
-### Máquina Ultra
-- **Limitações:** Sem privilégios de admin, sem acesso ao MCP do Supabase
-- **Solução:** Gerar arquivos `.sql` para execução manual no Supabase
-
-### Máquina UNIQ
-- **Acesso:** Completo ao MCP do Supabase
-- **Vantagem:** Deploy direto de migrations e edge functions
 
 ---
 

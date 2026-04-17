@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import {
   LayoutDashboard,
@@ -20,67 +20,173 @@ import {
   MessageCircle,
   Store,
   LayoutGrid,
+  Building2,
+  Search,
+  Keyboard,
+  ChevronDown,
+  Box,
+  UserRound,
+  Briefcase,
+  ChevronsLeft,
+  ChevronsRight,
+  Fingerprint,
   type LucideIcon,
 } from "lucide-react";
+import { useModulosAtivos } from "../../hooks/useModulosAtivos";
+import { cn } from "../ui/utils";
 
-type ModuloStatus = 'ativo' | 'trial' | 'core' | 'cancelado';
-
-interface ModuloAtivo {
-  codigo: string;
-  status: ModuloStatus;
-  diasTrialRestantes?: number;
-  dataExpiracao?: string;
-}
-
-interface NavModuleItem {
+interface NavRailItem {
   id: string;
   label: string;
   icon: LucideIcon;
   path: string;
   moduloCodigo: string;
-  badge: number;
 }
 
-const NAV_MODULE_MAP: NavModuleItem[] = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard", moduloCodigo: "dashboard", badge: 0 },
-  { id: "meus-modulos", label: "Meus Módulos", icon: LayoutGrid, path: "/meus-modulos", moduloCodigo: "meus-modulos", badge: 0 },
-  { id: "servicos", label: "Serviços", icon: Scissors, path: "/servicos", moduloCodigo: "servicos", badge: 0 },
-  { id: "chatbot", label: "Chatbot", icon: MessageCircle, path: "/chatbot", moduloCodigo: "chatbot", badge: 2 },
-  { id: "crm", label: "CRM", icon: Users, path: "/crm/dashboard", moduloCodigo: "crm", badge: 3 },
-  { id: "vendas", label: "Vendas", icon: ShoppingCart, path: "/vendas", moduloCodigo: "vendas", badge: 0 },
-  { id: "marketplace", label: "Marketplace", icon: Store, path: "/marketplace", moduloCodigo: "marketplace", badge: 0 },
-  { id: "estoque", label: "Estoque", icon: Package, path: "/estoque/dashboard", moduloCodigo: "estoque", badge: 2 },
-  { id: "fornecedores", label: "Fornecedores", icon: Truck, path: "/fornecedores", moduloCodigo: "fornecedores", badge: 0 },
-  { id: "agenda", label: "Agenda", icon: Calendar, path: "/agenda", moduloCodigo: "agenda", badge: 1 },
-  { id: "financeiro", label: "Financeiro", icon: DollarSign, path: "/financeiro", moduloCodigo: "financeiro", badge: 0 },
-  { id: "metricas", label: "Métricas", icon: TrendingUp, path: "/metricas/dashboard", moduloCodigo: "metricas", badge: 0 },
-  { id: "mel", label: "MEL IA", icon: Sparkles, path: "/mel", moduloCodigo: "mel", badge: 4 },
-  { id: "colaboradores", label: "Colaboradores", icon: Users, path: "/configuracoes/colaboradores", moduloCodigo: "colaboradores", badge: 0 },
-  { id: "configuracoes", label: "Config.", icon: Settings, path: "/configuracoes/empresa", moduloCodigo: "configuracoes", badge: 0 },
+interface SubNavItem {
+  id: string;
+  label: string;
+  path?: string;
+  icon?: LucideIcon;
+  children?: SubNavItem[];
+}
+
+interface SubNavSection {
+  railId: string;
+  title: string;
+  subtitle: string;
+  items: SubNavItem[];
+}
+
+const RAIL_ITEMS: NavRailItem[] = [
+  { id: "dashboard", label: "Visão Geral", icon: LayoutDashboard, path: "/dashboard", moduloCodigo: "dashboard" },
+  { id: "minha-empresa", label: "Minha Empresa", icon: Fingerprint, path: "/dashboard", moduloCodigo: "minha_empresa" },
+  { id: "vendas", label: "Vendas \u0026 PDV", icon: ShoppingCart, path: "/vendas", moduloCodigo: "vendas" },
+  { id: "crm", label: "CRM", icon: Users, path: "/crm/dashboard", moduloCodigo: "crm" },
+  { id: "loja", label: "Loja Virtual", icon: Store, path: "/marketplace", moduloCodigo: "loja_virtual" },
+  { id: "financeiro", label: "Financeiro", icon: DollarSign, path: "/financeiro", moduloCodigo: "financeiro" },
+  { id: "modulos", label: "Módulos", icon: LayoutGrid, path: "/meus-modulos", moduloCodigo: "meus-modulos" },
+  { id: "configuracoes", label: "Configurações", icon: Settings, path: "/configuracoes/empresa", moduloCodigo: "configuracoes" },
 ];
 
-const CORE_MODULES = new Set(['dashboard', 'configuracoes']);
+const SUBNAV_SECTIONS: SubNavSection[] = [
+  {
+    railId: "minha-empresa",
+    title: "Minha Empresa",
+    subtitle: "Visão Geral",
+    items: [
+      { id: "visao-geral", label: "Visão Geral", path: "/dashboard", icon: LayoutDashboard },
+      { id: "dashboard-hub", label: "Dashboard Hub", path: "/dashboard", icon: LayoutDashboard },
+      { id: "vendas-pdv", label: "Vendas \u0026 PDV", path: "/vendas", icon: ShoppingCart },
+      {
+        id: "cadastros",
+        label: "Cadastros",
+        icon: Briefcase,
+        children: [
+          { id: "produtos", label: "Produtos", path: "/estoque/produtos", icon: Box },
+          { id: "servicos", label: "Serviços", path: "/servicos", icon: Scissors },
+          { id: "clientes", label: "Clientes", path: "/crm/clientes", icon: UserRound },
+          { id: "fornecedores", label: "Fornecedores", path: "/fornecedores", icon: Truck },
+          { id: "colaboradores", label: "Colaboradores", path: "/configuracoes/colaboradores", icon: Users },
+        ],
+      },
+    ],
+  },
+  {
+    railId: "vendas",
+    title: "Vendas \u0026 PDV",
+    subtitle: "Gestão de vendas",
+    items: [
+      { id: "v-visao-geral", label: "Visão Geral", path: "/vendas", icon: LayoutDashboard },
+      { id: "v-pedidos", label: "Pedidos", path: "/vendas/pedidos", icon: ShoppingCart },
+      { id: "v-cupons", label: "Cupons", path: "/vendas/cupons", icon: Sparkles },
+    ],
+  },
+  {
+    railId: "crm",
+    title: "CRM",
+    subtitle: "Gestão de clientes",
+    items: [
+      { id: "c-dashboard", label: "Dashboard CRM", path: "/crm/dashboard", icon: LayoutDashboard },
+      { id: "c-clientes", label: "Clientes", path: "/crm/clientes", icon: Users },
+      { id: "c-pipeline", label: "Pipeline", path: "/crm/pipeline", icon: TrendingUp },
+    ],
+  },
+  {
+    railId: "financeiro",
+    title: "Financeiro",
+    subtitle: "Controle financeiro",
+    items: [
+      { id: "f-visao", label: "Visão Geral", path: "/financeiro", icon: LayoutDashboard },
+      { id: "f-fluxo", label: "Fluxo de Caixa", path: "/financeiro/fluxo", icon: DollarSign },
+      { id: "f-contas", label: "Contas a Pagar", path: "/financeiro/contas", icon: Calendar },
+    ],
+  },
+  {
+    railId: "loja",
+    title: "Loja Virtual",
+    subtitle: "Canal de vendas online",
+    items: [
+      { id: "l-dashboard", label: "Dashboard", path: "/marketplace", icon: LayoutDashboard },
+      { id: "l-catalogo", label: "Catálogo", path: "/marketplace/catalogo", icon: Package },
+      { id: "l-pedidos", label: "Pedidos Online", path: "/marketplace/pedidos", icon: ShoppingCart },
+    ],
+  },
+  {
+    railId: "modulos",
+    title: "Módulos",
+    subtitle: "Gerencie seus módulos",
+    items: [
+      { id: "m-meus", label: "Meus Módulos", path: "/meus-modulos", icon: LayoutGrid },
+      { id: "m-marketplace", label: "Marketplace", path: "/marketplace", icon: Store },
+      { id: "m-chatbot", label: "Chatbot", path: "/chatbot", icon: MessageCircle },
+    ],
+  },
+  {
+    railId: "configuracoes",
+    title: "Configurações",
+    subtitle: "Ajustes do sistema",
+    items: [
+      { id: "cfg-empresa", label: "Empresa", path: "/configuracoes/empresa", icon: Building2 },
+      { id: "cfg-usuarios", label: "Usuários", path: "/configuracoes/colaboradores", icon: Users },
+      { id: "cfg-integracoes", label: "Integrações", path: "/configuracoes/integracoes", icon: Sparkles },
+    ],
+  },
+];
+
+const CORE_MODULES = new Set(["dashboard", "configuracoes", "meus-modulos", "minha_empresa"]);
 
 export function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [expandedSubmenu, setExpandedSubmenu] = useState<string | null>("cadastros");
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("uniq:sidebar-expanded");
+      return stored === null ? true : stored === "true";
+    }
+    return true;
+  });
 
-  // Mock local de módulos ativos do parceiro
-  const [modulosAtivos] = useState<ModuloAtivo[]>([
-    { codigo: 'dashboard', status: 'core' },
-    { codigo: 'configuracoes', status: 'core' },
-    { codigo: 'meus-modulos', status: 'core' },
-    { codigo: 'crm', status: 'ativo' },
-    { codigo: 'estoque', status: 'trial', diasTrialRestantes: 12 },
-    { codigo: 'vendas', status: 'cancelado', dataExpiracao: '2026-05-15' },
-    { codigo: 'agenda', status: 'ativo' },
-    { codigo: 'financeiro', status: 'trial', diasTrialRestantes: 7 },
-    { codigo: 'metricas', status: 'cancelado', dataExpiracao: '2026-04-20' },
-    { codigo: 'mel', status: 'ativo' },
-  ]);
+  useEffect(() => {
+    localStorage.setItem("uniq:sidebar-expanded", String(isSidebarExpanded));
+  }, [isSidebarExpanded]);
 
+  const { modulos: modulosAtivos } = useModulosAtivos();
   const currentPath = location.pathname;
+
+  // Determina qual rail está ativo com base na rota atual
+  const activeRailId = useMemo(() => {
+    // Ordena por comprimento de path descendente para match mais específico primeiro
+    const sorted = [...RAIL_ITEMS].sort((a, b) => b.path.length - a.path.length);
+    const matched = sorted.find((item) => currentPath.startsWith(item.path));
+    return matched?.id || "dashboard";
+  }, [currentPath]);
+
+  const activeSubnav = useMemo(() => {
+    return SUBNAV_SECTIONS.find((s) => s.railId === activeRailId) || SUBNAV_SECTIONS[0];
+  }, [activeRailId]);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -91,98 +197,238 @@ export function AppLayout() {
     navigate("/auth/login");
   };
 
-  const visibleNavItems = useMemo(() => {
-    return NAV_MODULE_MAP.filter(item => {
+  const visibleRailItems = useMemo(() => {
+    return RAIL_ITEMS.filter((item) => {
       if (CORE_MODULES.has(item.moduloCodigo)) return true;
-      const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
-      return modulo && (modulo.status === 'ativo' || modulo.status === 'trial' || modulo.status === 'cancelado');
+      const modulo = modulosAtivos.find((m) => m.codigo === item.moduloCodigo);
+      return modulo && (modulo.status === "ativo" || modulo.status === "trial");
     });
   }, [modulosAtivos]);
 
-  // Fallback de segurança: garante que os core sempre apareçam mesmo se o mock falhar
-  const safeNavItems = useMemo(() => {
-    const hasCore = visibleNavItems.some(i => CORE_MODULES.has(i.moduloCodigo));
-    if (hasCore) return visibleNavItems;
-    return [
-      ...NAV_MODULE_MAP.filter(i => CORE_MODULES.has(i.moduloCodigo)),
-      ...visibleNavItems,
-    ];
-  }, [visibleNavItems]);
+  const toggleSubmenu = (id: string) => {
+    setExpandedSubmenu((prev) => (prev === id ? null : id));
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded((prev) => !prev);
+  };
+
+  const isItemActive = (path: string) => currentPath === path || currentPath.startsWith(path + "/");
 
   return (
-    <div className="flex h-screen bg-slate-50">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-[#1f2937] border-r border-slate-700">
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-700">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">U</span>
-          </div>
-          <div>
-            <h1 className="text-white font-bold text-lg">UNIQ</h1>
-            <p className="text-slate-400 text-xs">Sistema de Gestão</p>
+    <div className="flex h-screen bg-[#F9FAFB]">
+      {/* Desktop Double Sidebar */}
+      <aside className="hidden lg:flex h-full shrink-0">
+        {/* Dark rail - controlled by toggle */}
+        <div
+          className={cn(
+            "bg-[#1F2937] flex flex-col py-4 border-r border-slate-700/50 transition-all duration-300 ease-in-out overflow-hidden",
+            isSidebarExpanded ? "w-[200px]" : "w-[72px] items-center"
+          )}
+        >
+          {/* Logo */}
+          <button
+            onClick={() => handleNavigation("/dashboard")}
+            className={cn(
+              "shrink-0 mb-4 transition-all",
+              isSidebarExpanded
+                ? "flex items-center gap-3 px-4 w-full"
+                : "w-10 h-10 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center mx-auto shadow-sm"
+            )}
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center shadow-sm shrink-0">
+              <span className="text-white font-bold text-lg">U</span>
+            </div>
+            {isSidebarExpanded && (
+              <div className="flex flex-col items-start leading-tight">
+                <span className="text-white font-bold text-sm">UNIQ</span>
+                <span className="text-slate-400 text-[10px]">Sistema de Gestão</span>
+              </div>
+            )}
+          </button>
+
+          {/* Rail nav */}
+          <nav
+            className={cn(
+              "flex-1 w-full flex flex-col gap-1 overflow-y-auto",
+              isSidebarExpanded ? "px-3" : "items-center px-2"
+            )}
+          >
+            {visibleRailItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeRailId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavigation(item.path)}
+                  title={item.label}
+                  className={cn(
+                    "flex items-center gap-3 rounded-xl transition-all shrink-0",
+                    isSidebarExpanded ? "w-full px-3 py-2.5" : "w-11 h-11 justify-center",
+                    isActive
+                      ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
+                      : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
+                  )}
+                >
+                  <Icon size={20} className={cn("shrink-0", isActive && "text-[#4ADE80]")} />
+                  {isSidebarExpanded && (
+                    <span className={cn("text-sm truncate", isActive ? "text-[#4ADE80] font-normal" : "font-normal")}>
+                      {item.label}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Bottom rail actions */}
+          <div
+            className={cn(
+              "w-full flex flex-col gap-1 pb-2 mt-auto shrink-0",
+              isSidebarExpanded ? "px-3" : "items-center px-2"
+            )}
+          >
+            <button
+              onClick={() => handleNavigation("/meus-modulos")}
+              title="Meus Módulos"
+              className={cn(
+                "flex items-center gap-3 rounded-xl transition-all shrink-0",
+                isSidebarExpanded ? "w-full px-3 py-2.5" : "w-11 h-11 justify-center",
+                activeRailId === "modulos"
+                  ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
+                  : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
+              )}
+            >
+              <LayoutGrid size={20} className={cn("shrink-0", activeRailId === "modulos" && "text-[#4ADE80]")} />
+              {isSidebarExpanded && <span className={cn("text-sm truncate", activeRailId === "modulos" ? "text-[#4ADE80] font-normal" : "font-normal")}>Meus Módulos</span>}
+            </button>
+            <button
+              onClick={() => handleNavigation("/configuracoes/empresa")}
+              title="Configurações"
+              className={cn(
+                "flex items-center gap-3 rounded-xl transition-all shrink-0",
+                isSidebarExpanded ? "w-full px-3 py-2.5" : "w-11 h-11 justify-center",
+                activeRailId === "configuracoes"
+                  ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
+                  : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
+              )}
+            >
+              <Settings size={20} className={cn("shrink-0", activeRailId === "configuracoes" && "text-[#4ADE80]")} />
+              {isSidebarExpanded && <span className={cn("text-sm truncate", activeRailId === "configuracoes" ? "text-[#4ADE80] font-normal" : "font-normal")}>Configurações</span>}
+            </button>
+            <button
+              onClick={handleLogout}
+              title="Sair"
+              className={cn(
+                "flex items-center gap-3 rounded-xl transition-all shrink-0",
+                isSidebarExpanded
+                  ? "w-full px-3 py-2 text-slate-300 hover:text-white hover:bg-slate-700/50"
+                  : "w-11 h-11 justify-center text-slate-400 hover:bg-red-500/10 hover:text-red-400"
+              )}
+            >
+              {isSidebarExpanded ? (
+                <>
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-slate-300 to-slate-400 flex items-center justify-center shrink-0">
+                    <span className="text-slate-700 font-bold text-xs">A</span>
+                  </div>
+                  <span className="text-sm font-normal truncate">Sair</span>
+                </>
+              ) : (
+                <LogOut size={20} className="shrink-0" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {safeNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentPath.startsWith(item.path) || 
-              (item.path === "/dashboard" && currentPath === "/dashboard");
-            const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
-            const isTrial = modulo?.status === 'trial';
-            const isCanceled = modulo?.status === 'cancelado';
-            
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNavigation(item.path)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                  isActive
-                    ? "bg-emerald-600 text-white"
-                    : isCanceled
-                      ? "text-slate-300/60 hover:bg-slate-700 hover:text-white"
-                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                }`}
-              >
-                <Icon size={18} className={isActive ? "text-white" : "text-slate-400"} />
-                <span className="flex-1 text-left flex items-center gap-2">
-                  {item.label}
-                  {isTrial && (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300">
-                      Trial
-                    </span>
-                  )}
-                </span>
-                {item.badge > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* User section */}
-        <div className="p-4 border-t border-slate-700">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-600 flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
+        {/* Light submenu - always visible on desktop */}
+        <div className="w-[240px] bg-white border-r border-slate-200 flex flex-col overflow-hidden shrink-0">
+          {/* Section header */}
+          <div className="px-5 py-5 border-b border-slate-100 flex items-start justify-between">
+            <div>
+              <h2 className="text-slate-900 font-semibold text-base">{activeSubnav.title}</h2>
+              <p className="text-[#16A34A] text-xs font-medium mt-0.5">{activeSubnav.subtitle}</p>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">Administrador</p>
-              <p className="text-slate-400 text-xs truncate">admin@uniq.com</p>
+            <button
+              onClick={toggleSidebar}
+              title={isSidebarExpanded ? "Recolher menu" : "Expandir menu"}
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-all shrink-0"
+            >
+              {isSidebarExpanded ? <ChevronsLeft size={18} /> : <ChevronsRight size={18} />}
+            </button>
+          </div>
+
+          {/* Submenu items */}
+          <nav className="flex-1 px-3 py-3 overflow-y-auto">
+            {activeSubnav.items.map((item) => {
+              const Icon = item.icon;
+              const hasChildren = item.children && item.children.length > 0;
+              const isOpen = expandedSubmenu === item.id;
+              const isActive = !hasChildren && !!item.path && isItemActive(item.path);
+
+              return (
+                <div key={item.id} className="mb-1">
+                  <button
+                    onClick={() => {
+                      if (hasChildren) {
+                        toggleSubmenu(item.id);
+                      } else if (item.path) {
+                        handleNavigation(item.path);
+                      }
+                    }}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      isActive
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    {Icon && <Icon size={17} className={isActive ? "text-emerald-600" : "text-slate-400"} />}
+                    <span className="flex-1 text-left">{item.label}</span>
+                    {hasChildren && (
+                      <ChevronDown
+                        size={14}
+                        className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                      />
+                    )}
+                  </button>
+
+                  {hasChildren && isOpen && (
+                    <div className="mt-1 ml-2 pl-4 border-l border-slate-200 space-y-1">
+                      {item.children!.map((child) => {
+                        const ChildIcon = child.icon;
+                        const childActive = !!child.path && isItemActive(child.path);
+                        return (
+                          <button
+                            key={child.id}
+                            onClick={() => child.path && handleNavigation(child.path)}
+                            className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                              childActive
+                                ? "text-emerald-700 bg-emerald-50/50"
+                                : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                            }`}
+                          >
+                            {ChildIcon && <ChildIcon size={15} className={childActive ? "text-emerald-600" : "text-slate-400"} />}
+                            <span className="flex-1 text-left">{child.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+
+          {/* Plan status footer */}
+          <div className="p-4 border-t border-slate-100">
+            <div className="bg-[#1F2937] rounded-xl p-3 text-white">
+              <p className="text-[10px] text-slate-400 uppercase tracking-wide">Status do Plano</p>
+              <p className="text-sm font-semibold mt-0.5">UNIQ Pro Enterprise</p>
+              <div className="mt-2 h-1.5 w-full bg-slate-600 rounded-full overflow-hidden">
+                <div className="h-full w-3/4 bg-[#4ADE80] rounded-full" />
+              </div>
+              <p className="text-[10px] text-slate-400 mt-1">75% da cota usada</p>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-lg text-sm transition-colors"
-          >
-            <LogOut size={16} />
-            Sair
-          </button>
         </div>
       </aside>
 
@@ -190,7 +436,7 @@ export function AppLayout() {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center">
               <span className="text-white font-bold">U</span>
             </div>
             <h1 className="text-slate-900 font-bold">UNIQ</h1>
@@ -209,75 +455,212 @@ export function AppLayout() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Drawer completo */}
         {isMobileMenuOpen && (
-          <div className="border-t border-slate-100 bg-white">
-            <nav className="p-3 space-y-1">
-              {safeNavItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPath.startsWith(item.path);
-                const modulo = modulosAtivos.find(m => m.codigo === item.moduloCodigo);
-                const isTrial = modulo?.status === 'trial';
-                const isCanceled = modulo?.status === 'cancelado';
-                
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavigation(item.path)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                      isActive
-                        ? "bg-emerald-50 text-emerald-700"
-                        : isCanceled
-                          ? "text-slate-600/60 hover:bg-slate-50"
-                          : "text-slate-600 hover:bg-slate-50"
-                    }`}
-                  >
-                    <Icon size={18} />
-                    <span className="flex-1 text-left flex items-center gap-2">
-                      {item.label}
-                      {isTrial && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-600">
-                          Trial
+          <div className="fixed inset-0 z-40 lg:hidden">
+            {/* Overlay */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            {/* Drawer content */}
+            <div className="absolute left-0 top-0 bottom-0 w-[300px] bg-[#1F2937] flex flex-col overflow-hidden">
+              {/* Header com logo e botão fechar */}
+              <div className="flex items-center justify-between px-4 py-4 border-b border-slate-700/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2D5A45] to-[#1F4A35] flex items-center justify-center">
+                    <span className="text-white font-bold">U</span>
+                  </div>
+                  <div>
+                    <span className="text-white font-bold text-sm">UNIQ</span>
+                    <span className="text-slate-400 text-[10px] block">Sistema de Gestão</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-700 hover:text-white transition-all"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Módulos (rail items) - estilo escuro */}
+              <div className="px-3 py-3 border-b border-slate-700/50">
+                <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-2 px-3">Módulos</p>
+                <nav className="space-y-1">
+                  {visibleRailItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeRailId === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => handleNavigation(item.path)}
+                        className={cn(
+                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all",
+                          isActive
+                            ? "bg-[#2D5A45]/20 text-[#4ADE80] border border-[#4ADE80]/30"
+                            : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-200"
+                        )}
+                      >
+                        <Icon size={18} className={cn("shrink-0", isActive && "text-[#4ADE80]")} />
+                        <span className={cn("flex-1 text-left font-normal", isActive && "text-[#4ADE80]")}>
+                          {item.label}
                         </span>
-                      )}
-                    </span>
-                    {item.badge > 0 && (
-                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
+                        {isActive && <ChevronRight size={14} className="text-[#4ADE80] shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+
+              {/* Submenu do módulo ativo */}
+              <div className="flex-1 px-3 py-3 overflow-y-auto bg-white">
+                <p className="text-slate-400 text-[10px] uppercase tracking-wider font-medium mb-2 px-3">
+                  {activeSubnav.title}
+                </p>
+                <nav className="space-y-1">
+                  {activeSubnav.items.map((item) => {
+                    const Icon = item.icon;
+                    const hasChildren = item.children && item.children.length > 0;
+                    const isOpen = expandedSubmenu === item.id;
+                    const isActive = !hasChildren && !!item.path && isItemActive(item.path);
+
+                    return (
+                      <div key={item.id}>
+                        <button
+                          onClick={() => {
+                            if (hasChildren) {
+                              toggleSubmenu(item.id);
+                            } else if (item.path) {
+                              handleNavigation(item.path);
+                            }
+                          }}
+                          className={cn(
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                            isActive
+                              ? "bg-emerald-50 text-emerald-700"
+                              : "text-slate-600 hover:bg-slate-50"
+                          )}
+                        >
+                          {Icon && <Icon size={16} className={isActive ? "text-emerald-600" : "text-slate-400"} />}
+                          <span className="flex-1 text-left font-normal">{item.label}</span>
+                          {hasChildren && (
+                            <ChevronDown
+                              size={14}
+                              className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                            />
+                          )}
+                        </button>
+
+                        {hasChildren && isOpen && (
+                          <div className="mt-1 ml-2 pl-4 border-l border-slate-200 space-y-1">
+                            {item.children!.map((child) => {
+                              const ChildIcon = child.icon;
+                              const childActive = !!child.path && isItemActive(child.path);
+                              return (
+                                <button
+                                  key={child.id}
+                                  onClick={() => child.path && handleNavigation(child.path)}
+                                  className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                                    childActive
+                                      ? "text-emerald-700 bg-emerald-50/50"
+                                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                                  }`}
+                                >
+                                  {ChildIcon && <ChildIcon size={14} className={childActive ? "text-emerald-600" : "text-slate-400"} />}
+                                  <span className="flex-1 text-left">{child.label}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </nav>
+              </div>
+
+              {/* Footer */}
+              <div className="p-3 border-t border-slate-700/50 bg-[#1F2937]">
+                {/* Status do Plano */}
+                <div className="bg-slate-800/50 rounded-xl p-3 mb-3">
+                  <p className="text-[10px] text-slate-500 uppercase tracking-wide">Status do Plano</p>
+                  <p className="text-white text-sm font-semibold mt-0.5">UNIQ Pro Enterprise</p>
+                  <div className="mt-2 h-1.5 w-full bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-full w-3/4 bg-[#4ADE80] rounded-full" />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-1">75% da cota usada</p>
+                </div>
+
+                {/* Ações finais */}
+                <div className="space-y-1">
+                  <button
+                    onClick={() => handleNavigation("/meus-modulos")}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all"
+                  >
+                    <LayoutGrid size={18} />
+                    <span className="flex-1 text-left font-normal">Meus Módulos</span>
                   </button>
-                );
-              })}
-            </nav>
-            <div className="p-3 border-t border-slate-100">
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg text-sm transition-colors"
-              >
-                <LogOut size={16} />
-                Sair
-              </button>
+                  <button
+                    onClick={() => handleNavigation("/configuracoes/empresa")}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all"
+                  >
+                    <Settings size={18} />
+                    <span className="flex-1 text-left font-normal">Configurações</span>
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                  >
+                    <LogOut size={18} />
+                    <span className="flex-1 text-left font-normal">Sair</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col lg:ml-0 mt-14 lg:mt-0 overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0 lg:ml-0 mt-14 lg:mt-0 overflow-hidden">
         {/* Desktop Header */}
-        <header className="hidden lg:flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200">
-          <div className="flex items-center gap-2 text-sm text-slate-500">
+        <header className="hidden lg:flex items-center justify-between px-6 py-3.5 bg-white border-b border-slate-200">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-slate-500 min-w-[140px]">
             <span>Home</span>
             <ChevronRight size={14} />
             <span className="text-slate-900 font-medium capitalize">
               {currentPath.split("/")[1] || "Dashboard"}
             </span>
           </div>
-          <div className="flex items-center gap-4">
+
+          {/* Centered Search */}
+          <div className="flex-1 flex justify-center px-4">
+            <div className="relative w-full max-w-xl">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                readOnly
+                placeholder="Buscar produtos, pedidos ou clientes..."
+                className="w-full pl-10 pr-12 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A45]/20 focus:border-[#2D5A45] transition-all cursor-pointer"
+                onClick={() => {
+                  // Espaço reservado para futura implementação de busca global (Cmd/Ctrl+K)
+                }}
+              />
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-medium text-slate-400 flex items-center gap-0.5">
+                <Keyboard size={10} />
+                Ctrl K
+              </span>
+            </div>
+          </div>
+
+          {/* Right actions */}
+          <div className="flex items-center gap-3 min-w-[140px] justify-end">
             <button className="relative p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors">
               <Bell size={20} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
             </button>
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
               <span className="text-slate-600 font-bold text-sm">A</span>
